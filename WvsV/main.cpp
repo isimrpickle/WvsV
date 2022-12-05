@@ -8,6 +8,7 @@ int main() {
     cout << "y: " << endl;
     cin >> y;
 
+
     printing_map(x, y);
 
 }
