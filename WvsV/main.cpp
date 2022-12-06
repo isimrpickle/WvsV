@@ -3,6 +3,4 @@
 
 int main() {
     map_create();
-
-
 }
