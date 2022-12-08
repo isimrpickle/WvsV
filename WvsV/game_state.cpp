@@ -25,19 +25,6 @@ string** create_array_for_map(unsigned  short int x, unsigned short y) {
 void printing_map(unsigned short int x, unsigned short int y, string** array_for_map) {
     cout << system("cls") << endl;
 
-    //string** array_for_map = create_array_for_map(x, y);
-
-
-    unsigned short int for_obstacles;
-    for_obstacles = (x * y) / 100;
-    for (int i = 0; i <= for_obstacles; i++) {
-        graphics tree(rand() % x, rand() % y, TREE);
-        graphics water(rand() % x, rand() % y, WATER);
-
-        array_for_map[tree.get_x()][tree.get_y()] = " || ";
-        array_for_map[water.get_x()][water.get_y()] = " ~~ ";
-    }
-
     for (int i = 0; i < x; i++) {
         for (int n = 0; n < y; n++) {
             cout << array_for_map[i][n];
@@ -58,6 +45,16 @@ void map_create() {
     };
 
     string** array_for_map = create_array_for_map(x, y);
+    unsigned short int for_obstacles;
+    for_obstacles = (x * y) / 100;
+    for (int i = 0; i <= for_obstacles; i++) {
+        graphics tree(rand() % x, rand() % y, TREE);
+        graphics water(rand() % x, rand() % y, WATER);
+
+        array_for_map[tree.get_x()][tree.get_y()] = " || ";
+        array_for_map[water.get_x()][water.get_y()] = " ~~ ";
+    }
+
     printing_map(x, y, array_for_map);
     
 };
