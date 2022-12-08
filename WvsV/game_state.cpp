@@ -1,6 +1,7 @@
 #include <cstring>
 #include <iostream>
 #include "game_state.h"
+#include "graphics.h"
 #include <string>
 #include <stdlib.h>
 #include <vector>
@@ -21,10 +22,10 @@ string** create_array_for_map(unsigned  short int x, unsigned short y) {
         return array_for_map;
 }
 
-void printing_map(unsigned short int x, unsigned short int y) {
+void printing_map(unsigned short int x, unsigned short int y, string** array_for_map) {
     cout << system("cls") << endl;
 
-    string** array_for_map = create_array_for_map(x, y);
+    //string** array_for_map = create_array_for_map(x, y);
 
 
     unsigned short int for_obstacles;
@@ -56,8 +57,7 @@ void map_create() {
         cin >> y;
     };
 
-
-    printing_map(x, y);
- 
+    string** array_for_map = create_array_for_map(x, y);
+    printing_map(x, y, array_for_map);
     
 };

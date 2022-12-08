@@ -2,33 +2,15 @@
 
 
 #include <list>
-#include <vector>
 #include <stdlib.h>
+#include "graphics.h"
 
 using namespace std;
 
-typedef enum {
-    WEREWOLF, VAMPIRE, AVATAR, TREE, WATER, EARTH
-} GraphicType;
+string** create_array_for_map(unsigned  short int x, unsigned short y); // creates an array that consists of the graphics of the game
 
 
-class graphics {
-    //static unsigned num_of_graphics;
-    const unsigned short int x;
-    const unsigned short int y;
-    const GraphicType type;
-public:
-    graphics(unsigned short int x_, unsigned short int y_, GraphicType type_) :x(x_), y(y_), type(type_) {
-       // num_of_graphics++;
-    };
-    //static unsigned get_num_of_graphics() { return num_of_graphics; };
-    const unsigned short int get_y() { return y; };
-    const unsigned short int get_x() { return x; };
-    GraphicType get_id(graphics example) { return example.type; };
-};
+void printing_map(unsigned short int x, unsigned short int y, array** c); // prints the map of the game 
 
 
-void printing_map(unsigned short int x, unsigned short int y);
-
-
-void map_create();
+void map_create(); // creates the map with user input
