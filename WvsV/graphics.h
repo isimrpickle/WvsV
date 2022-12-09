@@ -3,6 +3,8 @@
 
 #include <list>
 #include <stdlib.h>
+#include "game_state.h"
+
 
 using namespace std;
 
@@ -12,13 +14,21 @@ typedef enum {
 
 
 class graphics {
-    //static unsigned num_of_graphics;
-     int x;
-     int y;
-    const GraphicType type;
+    //static unsigned num_ofgraphics;
+    unsigned short int x;
+    unsigned short int y;
+    GraphicType type;
 public:
-    graphics(int x_,int y_, GraphicType type_) :x(x_), y(y_), type(type_) {
-        // num_of_graphics++;
+    graphics() {
+        this->x = 0;
+        this->y = 0;
+        this->type = EARTH;
+    }
+    graphics(unsigned short int x_ , int y_ , GraphicType type_ = EARTH){
+        this->x = x_;
+        this->y = y_;
+        this->type = type_;
+        cout << " x " << this->x << " y " << this->y << " type " << this->type;
     };
     void set_x(unsigned short int i) { this->x = i; };
     void set_y(unsigned short int i) { this->y = i; };
@@ -26,7 +36,27 @@ public:
     const unsigned short int get_y() { return y; };
     const unsigned short int get_x() { return x; };
     GraphicType get_id(graphics example) { return example.type; };
-    void update_charactes(graphics example, unsigned short int map_x, unsigned short int map_y);
+    void update_charactes(graphics example, unsigned short int map_x, unsigned short int mapy);
 };
 
+class vampires : public graphics {
+    unsigned short int power, defense, health;
+public:
+    vampires() {
+        this->power = rand() % 4;
+        this->defense = rand() % 3;
+        this->health = 10;
+    };
+ 
+};
 
+class werewolves : public graphics {
+    unsigned short int power, defense, health;
+public:
+    werewolves() {
+        this->power = rand() % 4;
+        this->defense = rand() % 3;
+        this->health = 10;
+    };
+
+};
