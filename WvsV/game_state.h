@@ -13,4 +13,4 @@ string** create_array_for_map(unsigned  short int x, unsigned short y); // creat
 void printing_map(unsigned short int x, unsigned short int y, string** c); // prints the map of the game 
 
 
-void map_create(); // creates the map with user input
+string** map_create(); // creates the map with user input

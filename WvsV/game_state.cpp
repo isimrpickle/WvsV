@@ -14,10 +14,18 @@ string** create_array_for_map(unsigned  short int x, unsigned short y) {
             array_for_map[i] = new string[y];
         }
         for (int i = 0; i < x; i++) {
-            for (int n = 1; n < y; n++) {
+            for (int n = 0; n < y; n++) {
                 array_for_map[i][n] = ":__:";
             }
         }
+
+        for (int i = 0; i < x; i++) {
+            for (int n = 0; n < y; n++) {
+                cout << array_for_map[i][n];
+            }
+            cout << endl;
+        }
+
 
         return array_for_map;
 }
@@ -35,8 +43,9 @@ void printing_map(unsigned short int x, unsigned short int y, string** array_for
 }
 
 
-void map_create() {
-    unsigned short int x=0, y=0;
+string** map_create() {
+    srand(NULL);
+    int x=0, y=0;
     while(x* y <= 15) {
         cout << "Hello! \n Please enter the dimensions you want! \n x: " << endl;
         cin >> x;
@@ -45,8 +54,10 @@ void map_create() {
     };
 
     string** array_for_map = create_array_for_map(x, y);
+
     unsigned short int for_obstacles;
     for_obstacles = (x * y) / 100;
+
     for (int i = 0; i <= for_obstacles; i++) {
         graphics tree(rand() % x, rand() % y, TREE);
         graphics water(rand() % x, rand() % y, WATER);
@@ -56,5 +67,11 @@ void map_create() {
     }
 
     printing_map(x, y, array_for_map);
+
+    return array_for_map;
     
+};
+
+void map_destroy_array(string*** array_for_map) {
+    delete[] array_for_map;
 };

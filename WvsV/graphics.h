@@ -13,11 +13,11 @@ typedef enum {
 
 class graphics {
     //static unsigned num_of_graphics;
-     unsigned short int x;
-     unsigned short int y;
+     int x;
+     int y;
     const GraphicType type;
 public:
-    graphics(unsigned short int x_, unsigned short int y_, GraphicType type_) :x(x_), y(y_), type(type_) {
+    graphics(int x_,int y_, GraphicType type_) :x(x_), y(y_), type(type_) {
         // num_of_graphics++;
     };
     void set_x(unsigned short int i) { this->x = i; };
