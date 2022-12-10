@@ -1,22 +1,20 @@
-#include <cstring>
-#include <iostream>
+
 #include "game_state.h"
 #include "graphics.h"
 #include <string>
-#include <stdlib.h>
-#include <vector>
+
 
 using namespace std;
 
 unsigned short x_for_map, y_for_map;
 
-string** create_array_for_map(unsigned  short int x, unsigned short y) {
-    string** array_for_map = new string * [x];
-        for (int i = 0; i < y; i++) {
-            array_for_map[i] = new string[y];
+string** create_array_for_map() {
+    string** array_for_map = new string * [x_for_map];
+        for (int i = 0; i < y_for_map; i++) {
+            array_for_map[i] = new string[y_for_map];
         }
-        for (int i = 0; i < x; i++) {
-            for (int n = 0; n < y; n++) {
+        for (int i = 0; i < x_for_map; i++) {
+            for (int n = 0; n < y_for_map; n++) {
                 array_for_map[i][n] = ":__:";
             }
         }
@@ -24,11 +22,11 @@ string** create_array_for_map(unsigned  short int x, unsigned short y) {
         return array_for_map;
 }
 
-void printing_map(unsigned short int x, unsigned short int y, string** array_for_map) {
+void printing_map(string** array_for_map) {
     cout << system("cls") << endl;
 
-    for (int i = 0; i < x; i++) {
-        for (int n = 0; n < y; n++) {
+    for (int i = 0; i < x_for_map; i++) {
+        for (int n = 0; n < y_for_map; n++) {
             cout << array_for_map[i][n];
         }
         cout << endl;
@@ -58,8 +56,13 @@ string** map_create() {
         y_for_map = y;
     };
 
-    string** array_for_map = create_array_for_map(x, y);
+    string** array_for_map = create_array_for_map();
 
+    avatars avatar;
+    avatar.set_x(rand() % x);
+    avatar.set_y(rand() % y);
+
+    array_for_map[avatar.get_x()][avatar.get_y()] = "  A ";
 
     for (int i = 0; i <= (x * y) / 100; i++) {
         graphics tree(rand() % x, rand() % y, TREE);
@@ -88,11 +91,11 @@ string** map_create() {
 
         array_for_map[werewolf.get_x()][werewolf.get_y()] = "  W ";
 
-        printing_map(x, y, array_for_map);
+        printing_map( array_for_map);
       
     }
 
-    printing_map(x, y, array_for_map);
+    printing_map(array_for_map);
 
     return array_for_map;
     
