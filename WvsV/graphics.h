@@ -28,7 +28,6 @@ public:
         this->x = x_;
         this->y = y_;
         this->type = type_;
-        cout << " x " << this->x << " y " << this->y << " type " << this->type;
     };
     void set_x(unsigned short int i) { this->x = i; };
     void set_y(unsigned short int i) { this->y = i; };

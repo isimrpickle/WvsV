@@ -8,8 +8,7 @@
 
 using namespace std;
 
-unsigned short x_for_map;
-unsigned short y_for_map;
+unsigned short x_for_map, y_for_map;
 
 string** create_array_for_map(unsigned  short int x, unsigned short y) {
     string** array_for_map = new string * [x];
@@ -21,14 +20,6 @@ string** create_array_for_map(unsigned  short int x, unsigned short y) {
                 array_for_map[i][n] = ":__:";
             }
         }
-
-        for (int i = 0; i < x; i++) {
-            for (int n = 0; n < y; n++) {
-                cout << array_for_map[i][n];
-            }
-            cout << endl;
-        }
-
 
         return array_for_map;
 }
@@ -44,6 +35,15 @@ void printing_map(unsigned short int x, unsigned short int y, string** array_for
     }
 
 }
+ 
+
+void fix_position(string** array, graphics& graphic) {
+    while (array[graphic.get_x()][graphic.get_y()] != ":__:") {
+        graphic.set_x(rand() % x_for_map);
+        graphic.set_y(rand() % y_for_map);
+    }
+};
+
 
 string** map_create() {
     srand((unsigned)time(NULL));
@@ -60,16 +60,16 @@ string** map_create() {
 
     string** array_for_map = create_array_for_map(x, y);
 
-    unsigned short int for_obstacles;
-    for_obstacles = (x * y) / 100;
 
-    for (int i = 0; i <= for_obstacles; i++) {
+    for (int i = 0; i <= (x * y) / 100; i++) {
         graphics tree(rand() % x, rand() % y, TREE);
-        graphics water(rand() % x, rand() % y, WATER);
-        
-   
+        fix_position(array_for_map, tree);
 
         array_for_map[tree.get_x()][tree.get_y()] = " || ";
+
+        graphics water(rand() % x, rand() % y, WATER);
+        fix_position(array_for_map,water);  
+        
         array_for_map[water.get_x()][water.get_y()] = " ~~ ";
     }
 
@@ -77,15 +77,19 @@ string** map_create() {
         vampires vampire;
         vampire.set_x(rand() % x);
         vampire.set_y(rand() % y);
+        fix_position(array_for_map, vampire);
+        
+        array_for_map[vampire.get_x()][vampire.get_y()] = "  V ";
 
         werewolves werewolf;
-
         werewolf.set_x(rand() % x);
         werewolf.set_y(rand() % y);
+        fix_position(array_for_map, werewolf);
 
-        array_for_map[vampire.get_x()][vampire.get_y()] = " V ";
-        array_for_map[werewolf.get_x()][werewolf.get_x()] = " W ";
+        array_for_map[werewolf.get_x()][werewolf.get_y()] = "  W ";
 
+        printing_map(x, y, array_for_map);
+      
     }
 
     printing_map(x, y, array_for_map);
@@ -93,12 +97,8 @@ string** map_create() {
     return array_for_map;
     
 };
-/*
-bool can_i_move(unsigned short place_x, unsigned short place_y, string** array_for_map, unsigned short x, unsigned short y) {
-   
 
-}
-*/
+
 void map_destroy_array(string*** array_for_map) {
     delete[] array_for_map;
 };

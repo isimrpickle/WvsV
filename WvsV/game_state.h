@@ -7,6 +7,10 @@
 
 using namespace std;
 
+//bool is_someone_next_to_me(string** array, graphics graphic);
+
+void fix_position(string** array, graphics& graphic);
+
 string** create_array_for_map(unsigned  short int x, unsigned short y); // creates an array that consists of the graphics of the game
 
 
