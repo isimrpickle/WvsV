@@ -42,15 +42,30 @@ void fix_position(string** array, graphics& graphic) {
     }
 };
 
+bool check_position(int one, int two) {
+    if (one == two++ || one == two--)
+        return true;
+
+    return false;
+};
 
 void next_to_me(string** array, vector<graphics>vec) {
     for (auto i = vec.begin(); i != vec.end(); i++) {
         graphics part_one = *i;
-        for (auto f = vec.begin(); f != vec.end(); f++) {
+        int p = 1;
+        for (auto f = vec.begin() +p; f != vec.end(); f++) {
             graphics part_two = *f;
-            if (part_one.get_type() != part_two.get_type()) {
-                bool pipi = true;
+
+            if(part_one.get_x() == part_two.get_x()&&
+               check_position(part_one.get_y(), part_two.get_y())){
+               
+
             }
+            if (part_one.get_y() == part_two.get_y() &&
+                check_position(part_one.get_x(), part_two.get_x())) {
+
+            }
+
         }
     }
 
