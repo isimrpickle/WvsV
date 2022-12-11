@@ -32,6 +32,8 @@ public:
         this->type = type_;
     };
     virtual void move();
+    void set_type(GraphicType type_) { this->type = type_; };
+    GraphicType get_type() { return this->type; };
     void set_x(unsigned short int i) { this->x = i; };
     void set_y(unsigned short int i) { this->y = i; };
     //static unsigned get_num_of_graphics() { return num_of_graphics; };
@@ -80,5 +82,4 @@ public:
     avatars() {
         potions = rand() % 2;
     }
-
 };

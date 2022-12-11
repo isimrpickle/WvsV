@@ -43,11 +43,26 @@ void fix_position(string** array, graphics& graphic) {
 };
 
 
+void next_to_me(string** array, vector<graphics>vec) {
+    for (auto i = vec.begin(); i != vec.end(); i++) {
+        graphics part_one = *i;
+        for (auto f = vec.begin(); f != vec.end(); f++) {
+            graphics part_two = *f;
+            if (part_one.get_type() != part_two.get_type()) {
+                bool pipi = true;
+            }
+        }
+    }
+
+};
+
+
 string** map_create() {
     srand((unsigned)time(NULL));
 
     int x=0, y=0;
-    while(x* y <= 15) {
+
+    while (x * y <= 15 || x<4 || y<4 ) {
         cout << "Hello! \n Please enter the dimensions you want! \n x: " << endl;
         cin >> x;
         cout << " y: " << endl;
@@ -56,46 +71,56 @@ string** map_create() {
         y_for_map = y;
     };
 
+    vector<graphics> enemies;
+
     string** array_for_map = create_array_for_map();
 
     avatars avatar;
-    avatar.set_x(rand() % x);
-    avatar.set_y(rand() % y);
+    avatar.set_x(rand() % x_for_map);
+    avatar.set_y(rand() % y_for_map);
 
     array_for_map[avatar.get_x()][avatar.get_y()] = "  A ";
 
-    for (int i = 0; i <= (x * y) / 100; i++) {
-        graphics tree(rand() % x, rand() % y, TREE);
+    for (int i = 0; i <= (x_for_map * y_for_map) / 100; i++) {
+        graphics tree(rand() % x_for_map, rand() % y_for_map, TREE);
         fix_position(array_for_map, tree);
 
         array_for_map[tree.get_x()][tree.get_y()] = " || ";
 
-        graphics water(rand() % x, rand() % y, WATER);
+        graphics water(rand() % x_for_map, rand() % y_for_map, WATER);
         fix_position(array_for_map,water);  
         
         array_for_map[water.get_x()][water.get_y()] = " ~~ ";
     }
 
-    for (int i = 0; i < (x * y) / 15; i++) {
+    for (int i = 0; i < (x_for_map * y_for_map) / 15; i++) {
+
         vampires vampire;
-        vampire.set_x(rand() % x);
-        vampire.set_y(rand() % y);
+        vampire.set_type(VAMPIRE);
+        vampire.set_x(rand() % x_for_map);
+        vampire.set_y(rand() % y_for_map);
+       
         fix_position(array_for_map, vampire);
         
         array_for_map[vampire.get_x()][vampire.get_y()] = "  V ";
 
         werewolves werewolf;
-        werewolf.set_x(rand() % x);
-        werewolf.set_y(rand() % y);
+        werewolf.set_x(rand() % x_for_map);
+        werewolf.set_y(rand() % y_for_map);
+        werewolf.set_type(WEREWOLF);
+
         fix_position(array_for_map, werewolf);
 
         array_for_map[werewolf.get_x()][werewolf.get_y()] = "  W ";
 
-        printing_map( array_for_map);
+        enemies.push_back(vampire);
+        enemies.push_back(werewolf);
       
     }
 
     printing_map(array_for_map);
+
+    next_to_me(array_for_map, enemies);
 
     return array_for_map;
     
