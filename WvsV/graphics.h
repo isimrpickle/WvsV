@@ -76,10 +76,10 @@ public:
     void printstats_w()const;
 };
 
-class avatars : public graphics {
+class avatar : public graphics {
     int potions;
 public:
-    avatars() {
+    avatar () {
         potions = rand() % 2;
     }
 };
