@@ -91,7 +91,6 @@ void game_update(string** array,vector<graphics> vec,avatars& i) {
     bool changed = false;
     while (!changed) {
     unsigned short new_place = i.input();
-
         switch (new_place) {
             case 1:
                 changed = check_if_allowed(i.get_x() + 1, i.get_y(), array) == true ? true : false;
