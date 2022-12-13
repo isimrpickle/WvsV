@@ -2,7 +2,7 @@
 #include "game_state.h"
 #include "graphics.h"
 #include <string>
-
+#include<windows.h>
 
 using namespace std;
 
@@ -70,6 +70,10 @@ void next_to_me(string** array, vector<graphics>vec) {
     }
 
 };
+
+void game_update(avatars& avatar) {
+
+}
 
 
 string** map_create() {
@@ -146,3 +150,54 @@ void map_destroy_array(string*** array_for_map) {
     delete[] array_for_map;
 };
 
+
+void will_it_attack(graphics& i, graphics& y) {
+    if (i.getpower() > y.getpower()) {   //βλεπουμε ποιος κανει το attack
+        switch (rand() % 2) {
+        case 0:
+            y.move();  //επιτυγχανεται η αποφυγη με συναρτηση move. Θα διορθωθει και αλλο!!
+            break;
+        case 1:
+            if (i.getpower() > y.getdefense())  //Ελεγχουμε αν ο ατακερ εχει μεγαλυτερη δυναμη
+                y.health_decrease(i.getpower()); //μειωνουμε τη ζωη του αμυνομενου αναλογα το power του επιτεθομενου
+        default:
+            break;
+        }
+        if (y.getpower() > i.getpower()) {
+            switch (rand() % 2) {
+            case 0:
+                i.move();  //επιτυγχανεται η αποφυγη με συναρτηση move. Θα διορθωθει και αλλο!!
+                break;
+            case 1:
+                if (y.getpower() > i.getdefense())
+                    i.health_decrease(y.getpower());
+            default:
+                break;
+            }
+        }
+
+    }
+}
+
+void healing_v(graphics &i,graphics &y) {  //Η συναρτηση αυτη χρησιμοπειται αφου εχει γινει ελεγχος οτι 2 ιδια αντικειμενα βρισκονται σε διπλανες θεσεις
+    if (i.gethealth() < 10) {
+        if (y.get_potions() > 0) {
+            switch (rand() % 2) {
+            case 1:
+                i.health_increase(1);
+            default:
+                break;   
+            }
+        }
+    }
+    if (y.gethealth() < 10) {
+        if (i.get_potions() > 0) {
+            switch (rand() % 2) {
+            case 1:
+                y.health_increase(1);
+            default:
+                break;
+            }
+        }
+    }
+}

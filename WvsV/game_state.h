@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include "graphics.h"
 
+
 using namespace std;
 
 //bool is_someone_next_to_me(string** array, graphics graphic);
@@ -20,6 +21,8 @@ void printing_map(string** array_for_map); // prints the map of the game
 string** map_create(); // creates the map with user input
 
 void next_to_me(string** array, vector<graphics>vec);
-
+void will_it_attack(graphics&,graphics&);
+void healing(graphics&,graphics&);
+void avatar_input(avatars);
 //bool can_i_move(unsigned short place, string** array_for_map, unsigned short x, unsigned short y);
 
