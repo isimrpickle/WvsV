@@ -2,6 +2,7 @@
 #include"graphics.h"
 #include <cstdlib> // in order to use srand and rand 
 #include<windows.h>
+#include"game_state.h"
 
 using namespace std;
 
@@ -23,28 +24,24 @@ void graphics::move() {
         break;
     }
 }
-void avatars:: move() {
+int avatars:: input() {
    int i= GetKeyState(VK_NUMPAD0) & 0x8000;
    switch (i) {
-   case 0x57:   //το virtual key του w
+   case 0x57:  //το virtual key του w
    case 0x26: //up arrow virtual key
-      set_y(get_y() + 1);
-    //  return z.get_y();
+       return (get_x()-1);
        break;  // 1 break γιατι εκτελουν την ίδια εντολή οπότε έχουμε 2 πανομοιοτυπα cases που λειτουργουν ως 1
    case 0x53: // virtual key "s"
    case 0x28: //down arrow virtual key
-       set_x(get_x() + 1);
-     //  return z.get_x();
+       return(get_x() + 1);
        break;
    case 0x41: // a virtual key
    case 0x25: //left arrow virtual key
-       set_y(get_y() - 1);
-      // return z.get_y();
+       return (get_y() - 1);
        break;
    case 0x44: // virtual key D
    case 0x27: //virtual key right arrow key
-       set_x(get_x() - 1);
-       //return z.get_x();
+       return(get_y() + 1);
    default:
        break;
     }

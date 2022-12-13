@@ -82,11 +82,18 @@ bool check_if_allowed(unsigned short  x, unsigned short y, string** array) {
 
     if (array[x][y] != ":__:")
         return false;
+    
     return true;
 };
 
-void game_update(avatars& avatar) {
 
+void game_update(string** array,vector<graphics> vec,avatars& i) {
+    unsigned short new_place = i.input();
+
+
+
+
+    
 }
 
 
