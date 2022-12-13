@@ -31,7 +31,7 @@ public:
         this->y = y_;
         this->type = type_;
     };
-    virtual void move();
+    virtual int move();
     void set_type(GraphicType type_) { this->type = type_; };
     GraphicType get_type() { return this->type; };
     void set_x(unsigned short int i) { this->x = i; };
@@ -60,7 +60,7 @@ public:
         this->health = 10;
         this->potions = rand() % 2;
     };
-    void move();
+    int move();
     int getpower() const { return this->power; }
     int getdefense()const { return this->defense; }
     int gethealth()const { return this->health; }

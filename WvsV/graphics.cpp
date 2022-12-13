@@ -7,19 +7,19 @@
 using namespace std;
 
 
-void graphics::move() {
+int graphics::move() {
     switch (1 + rand() % 4) {  // οι περιπτωσεις να μετακινηθει προς οποιαδήποτε κατευθυνση είναι ισοπίθανη
     case 1:
-        this->x += 1;
+        return 1; // x++
         break;
     case 2:
-        this->x -= 1;
+        return 2; // x--
         break;
     case 3:
-        this->y += 1;
+        return 3; // y++
         break;
     case 4:
-        this->y -= 1;
+        return 4; //y--
     default:
         break;
     }
@@ -29,19 +29,19 @@ int avatars:: input() {
    switch (i) {
    case 0x57:  //το virtual key του w
    case 0x26: //up arrow virtual key
-       return (get_x()-1);
+       return 1; //x++
        break;  // 1 break γιατι εκτελουν την ίδια εντολή οπότε έχουμε 2 πανομοιοτυπα cases που λειτουργουν ως 1
    case 0x53: // virtual key "s"
    case 0x28: //down arrow virtual key
-       return(get_x() + 1);
+       return 2; //x--
        break;
    case 0x41: // a virtual key
    case 0x25: //left arrow virtual key
-       return (get_y() - 1);
+       return 3; //y++
        break;
    case 0x44: // virtual key D
    case 0x27: //virtual key right arrow key
-       return(get_y() + 1);
+       return 4; //y--
    default:
        break;
     }
@@ -63,35 +63,31 @@ void vampires::printstats()const {
     cout << "the power, the defense and the health are:" << getpower() << "," << getdefense() << "," << gethealth() << endl;
 }
 
-void vampires::move() {
+int vampires::move() {
     switch (1 + rand() % 8) {  // οι περιπτωσεις να μετακινηθει προς οποιαδήποτε κατευθυνση είναι ισοπίθανη
     case 1:
-        set_x(get_x() + 1);
+        return 1; // x++
         break;
     case 2:
-        set_x(get_x() - 1);
+        return 2; //x--
         break;
     case 3:
-        set_y(get_y() - 1);
+        return 3; // y++
         break;
     case 4:
-        set_y(get_y() + 1);
+        return 4; // y--
         break;
     case 5:
-        set_x(get_x() + 1);
-        set_y(get_y() + 1);
+        return 5; // x++ and y++
         break;
     case 6:
-        set_x(get_x() + 1);
-        set_y(get_y() - 1);
+        return 6; // x++ and y-- 
         break;
     case 7:
-        set_x(get_x() - 1);
-        set_y(get_y() + 1);
+        return 7; // x-- and y++
         break;
     case 8:
-        set_x(get_x() - 1);
-        set_y(get_y() - 1);
+        return 8; // x-- and y--
     default:
         break;
     }

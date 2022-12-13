@@ -88,12 +88,44 @@ bool check_if_allowed(unsigned short  x, unsigned short y, string** array) {
 
 
 void game_update(string** array,vector<graphics> vec,avatars& i) {
+    bool changed = false;
+    while (!changed) {
     unsigned short new_place = i.input();
 
+        switch (new_place) {
+            case 1:
+                changed = check_if_allowed(i.get_x() + 1, i.get_y(), array) == true ? true : false;
+                array[i.get_x()][i.get_y()] = ":__:";
+                i.set_x(i.get_x() + 1);
+                array[i.get_x()][i.get_y()] = "  A ";
 
+           case 2:
+               changed = check_if_allowed(i.get_x() - 1, i.get_y(), array) == true ? true : false;
+               array[i.get_x()][i.get_y()] = ":__:";
+               i.set_x(i.get_x() - 1);
+               array[i.get_x()][i.get_y()] = "  A ";
 
-
+            case 3:
+                changed = check_if_allowed(i.get_x(), i.get_y() + 1, array) == true ? true : false;
+                array[i.get_x()][i.get_y()] = ":__:";
+                i.set_y(i.get_y() + 1);
+                array[i.get_x()][i.get_y()] = " A ";
+            case 4:
+                changed = check_if_allowed(i.get_x(), i.get_y() - 1, array) == true ? true : false;
+                array[i.get_x()][i.get_y()] = ":__:";
+                i.set_y(i.get_y() - 1);
+                array[i.get_x()][i.get_y()] = "  A ";
+        }
+             
+    }
     
+
+
+
+    for (auto graph = vec.begin(); graph != vec.end(); graph++) {
+        graphics current_character = *graph;
+
+    }
 }
 
 
