@@ -20,9 +20,16 @@ void printing_map(string** array_for_map); // prints the map of the game
 
 string** map_create(); // creates the map with user input
 
-void next_to_me(string** array, vector<graphics>vec);
-void will_it_attack(graphics&,graphics&);
-void healing(graphics&,graphics&);
-void avatar_input(avatars);
+bool check_if_allowed(graphics graphic, string** array); // checks if a graphic's place is allowed
+
+
+void next_to_me(string** array, vector<graphics>vec); // checks and finds whether a character has someonenext to him 
+
+bool check_if_allowed(unsigned short  x, unsigned short y, string** array);// if a character has an enemy next to him there is a posibility of attack
+
+void healing(graphics&,graphics&);// if a character has an ally then there is a posibilty of healing
+
+void avatar_input(avatars); // the user moves the avatar
+
 //bool can_i_move(unsigned short place, string** array_for_map, unsigned short x, unsigned short y);
 

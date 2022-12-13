@@ -58,17 +58,31 @@ void next_to_me(string** array, vector<graphics>vec) {
 
             if(part_one.get_x() == part_two.get_x()&&
                check_position(part_one.get_y(), part_two.get_y())){
-               
-
+                if (part_one.get_type() == part_two.get_type())
+                    healing(part_one, part_two);
+                else
+                    will_it_attack(part_one, part_two);
             }
             if (part_one.get_y() == part_two.get_y() &&
                 check_position(part_one.get_x(), part_two.get_x())) {
-
+                if (part_one.get_type() == part_two.get_type())
+                    healing(part_one, part_two);
+                else
+                    will_it_attack(part_one, part_two);
             }
 
         }
     }
 
+};
+
+bool check_if_allowed(unsigned short  x, unsigned short y, string** array) {
+    if (x > x_for_map || y > y_for_map)
+        return false;
+
+    if (array[x][y] != ":__:")
+        return false;
+    return true;
 };
 
 void game_update(avatars& avatar) {
@@ -134,6 +148,8 @@ string** map_create() {
 
         enemies.push_back(vampire);
         enemies.push_back(werewolf);
+
+
       
     }
 
@@ -179,8 +195,8 @@ void will_it_attack(graphics& i, graphics& y) {
     }
 }
 
-void healing_v(graphics &i,graphics &y) {  //Η συναρτηση αυτη χρησιμοπειται αφου εχει γινει ελεγχος οτι 2 ιδια αντικειμενα βρισκονται σε διπλανες θεσεις
-    if (i.gethealth() < 10) {
+void healing(graphics &i,graphics &y) {  //Η συναρτηση αυτη χρησιμοπειται αφου εχει γινει ελεγχος οτι 2 ιδια αντικειμενα βρισκονται σε διπλανες θεσεις
+    if (i.gethealth() < 10 && y.gethealth()==10) {
         if (y.get_potions() > 0) {
             switch (rand() % 2) {
             case 1:
@@ -190,7 +206,7 @@ void healing_v(graphics &i,graphics &y) {  //Η συναρτηση αυτη χρ
             }
         }
     }
-    if (y.gethealth() < 10) {
+    if (y.gethealth() < 10 && i.gethealth() == 10) {
         if (i.get_potions() > 0) {
             switch (rand() % 2) {
             case 1:
