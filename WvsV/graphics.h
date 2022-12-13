@@ -100,4 +100,5 @@ public:
     avatars () {
         potions = rand() % 2;
     }
+    void move();
 };

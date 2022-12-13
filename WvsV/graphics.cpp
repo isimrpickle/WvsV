@@ -23,27 +23,27 @@ void graphics::move() {
         break;
     }
 }
-void avatar_input(avatars z) {
+void avatars:: move() {
    int i= GetKeyState(VK_NUMPAD0) & 0x8000;
    switch (i) {
    case 0x57:   //το virtual key του w
    case 0x26: //up arrow virtual key
-      z.set_y(z.get_y() + 1);
+      set_y(get_y() + 1);
     //  return z.get_y();
        break;  // 1 break γιατι εκτελουν την ίδια εντολή οπότε έχουμε 2 πανομοιοτυπα cases που λειτουργουν ως 1
    case 0x53: // virtual key "s"
    case 0x28: //down arrow virtual key
-       z.set_x(z.get_x() + 1);
+       set_x(get_x() + 1);
      //  return z.get_x();
        break;
    case 0x41: // a virtual key
    case 0x25: //left arrow virtual key
-       z.set_y(z.get_y() - 1);
+       set_y(get_y() - 1);
       // return z.get_y();
        break;
    case 0x44: // virtual key D
    case 0x27: //virtual key right arrow key
-       z.set_x(z.get_x() - 1);
+       set_x(get_x() - 1);
        //return z.get_x();
    default:
        break;
