@@ -202,28 +202,36 @@ void move_update(string** array, graphics& i) {     //συναρτηση που 
         result = i.move();
         switch (result) {
         case 1:
-            if (check_if_allowed(i.get_x() + 1, i.get_y(), array))
+            if (check_if_allowed(i.get_x() + 1, i.get_y(), array)) {
                 array[i.get_x()][i.get_y()] = ":__:";
-            i.set_x(i.get_x() + 1);
-            array[i.get_x()][i.get_y()] = "  w  ";
+                i.set_x(i.get_x() + 1);
+                array[i.get_x()][i.get_y()] = "  W  ";
+            }
+                
             break;
         case 2:
-            if (check_if_allowed(i.get_x() - 1, i.get_y(), array))
+            if (check_if_allowed(i.get_x() - 1, i.get_y(), array)) {
                 array[i.get_x()][i.get_y()] = ":__:";
-            i.set_x(i.get_x() - 1);
-            array[i.get_x()][i.get_y()] = "  w  ";
-            break;
+                i.set_x(i.get_x() - 1);
+                array[i.get_x()][i.get_y()] = "  w  ";
+                
+            }
+             break;  
         case 3:
-            if (check_if_allowed(i.get_x(), i.get_y() + 1, array))
+            if (check_if_allowed(i.get_x(), i.get_y() + 1, array)) {
                 array[i.get_x()][i.get_y()] = ":__:";
-            i.set_y(i.get_y() + 1);
-            array[i.get_x()][i.get_y()] = " W ";
-            break;
+                i.set_y(i.get_y() + 1);
+                array[i.get_x()][i.get_y()] = " W ";
+                
+            }
+            break;   
         case 4:
-            if (check_if_allowed(i.get_x(), i.get_y() - 1, array));
-            array[i.get_x()][i.get_y()] = ":__:";
-            i.set_y(i.get_y() - 1);
-            array[i.get_x()][i.get_y()] = "  w ";
+            if (check_if_allowed(i.get_x(), i.get_y() - 1, array)); {
+                array[i.get_x()][i.get_y()] = ":__:";
+                i.set_y(i.get_y() - 1);
+                array[i.get_x()][i.get_y()] = "  w ";
+            }
+            break;
         default:
             break;
         }
@@ -233,56 +241,71 @@ void move_update(string** array, graphics& i) {     //συναρτηση που 
         result = i.move();
         switch (result) {
         case 1:
-            if (check_if_allowed(i.get_x() + 1, i.get_y(), array));
-            array[i.get_x()][i.get_y()] = ":__:";
-            i.set_x(i.get_x() + 1);
-            array[i.get_x()][i.get_y()] = "  V ";
+            if (check_if_allowed(i.get_x() + 1, i.get_y(), array)) {
+                array[i.get_x()][i.get_y()] = ":__:";
+                i.set_x(i.get_x() + 1);
+                array[i.get_x()][i.get_y()] = "  V ";
+            }
+
             break;
         case 2:
-            if ((i.get_x() - 1, i.get_y(), array));
-            array[i.get_x()][i.get_y()] = ":__:";
-            i.set_x(i.get_x() - 1);
-            array[i.get_x()][i.get_y()] = "  V ";
+            if ((i.get_x() - 1, i.get_y(), array)) {
+                array[i.get_x()][i.get_y()] = ":__:";
+                i.set_x(i.get_x() - 1);
+                array[i.get_x()][i.get_y()] = "  V ";
+            }
+            
             break;
         case 3:
-            if (check_if_allowed(i.get_x(), i.get_y() + 1, array));
-            array[i.get_x()][i.get_y()] = ":__:";
-            i.set_y(i.get_y() + 1);
-            array[i.get_x()][i.get_y()] = " V ";
+            if (check_if_allowed(i.get_x(), i.get_y() + 1, array)) {
+               array[i.get_x()][i.get_y()] = ":__:";
+                i.set_y(i.get_y() + 1);
+                array[i.get_x()][i.get_y()] = " V ";
+            }
+ 
             break;
         case 4:
-            if (check_if_allowed(i.get_x(), i.get_y() - 1, array));
+            if (check_if_allowed(i.get_x(), i.get_y() - 1, array)) {
             array[i.get_x()][i.get_y()] = ":__:";
             i.set_y(i.get_y() - 1);
             array[i.get_x()][i.get_y()] = "  V ";
+            }
+
             break;
         case 5:
-            if (check_if_allowed(i.get_x() + 1, i.get_y() + 1, array))
+            if (check_if_allowed(i.get_x() + 1, i.get_y() + 1, array)) {
                 array[i.get_x()][i.get_y()] = ":__:";
-            i.set_x(i.get_x() + 1);
-            i.set_y(i.get_y() + 1);
-            array[i.get_x()][i.get_y()] = "  V ";
+                i.set_x(i.get_x() + 1);
+                i.set_y(i.get_y() + 1);
+                array[i.get_x()][i.get_y()] = "  V ";
+            }
             break;
         case 6:
-            if (check_if_allowed(i.get_x() + 1, i.get_y() - 1, array))
+            if (check_if_allowed(i.get_x() + 1, i.get_y() - 1, array)) {
                 array[i.get_x()][i.get_y()] = ":__:";
-            i.set_x(i.get_x() + 1);
-            i.set_y(i.get_y() - 1);
-            array[i.get_x()][i.get_y()] = "  V ";
+                i.set_x(i.get_x() + 1);
+                i.set_y(i.get_y() - 1);
+                array[i.get_x()][i.get_y()] = "  V ";
+            }
+
             break;
         case 7:
-            if (check_if_allowed(i.get_x() - 1, i.get_y() + 1, array))
+            if (check_if_allowed(i.get_x() - 1, i.get_y() + 1, array)) {               
                 array[i.get_x()][i.get_y()] = ":__:";
-            i.set_x(i.get_x() - 1);
-            i.set_y(i.get_y() + 1);
-            array[i.get_x()][i.get_y()] = "  V ";
+                i.set_x(i.get_x() - 1);
+                i.set_y(i.get_y() + 1);
+                array[i.get_x()][i.get_y()] = "  V ";
+            }
+
             break;
         case 8:
-            if (check_if_allowed(i.get_x() - 1, i.get_y() + 1, array))
+            if (check_if_allowed(i.get_x() - 1, i.get_y() + 1, array)) {
                 array[i.get_x()][i.get_y()] = ":__:";
-            i.set_x(i.get_x() - 1);
-            i.set_y(i.get_y() + 1);
-            array[i.get_x()][i.get_y()] = "  V ";
+                i.set_x(i.get_x() - 1);
+                i.set_y(i.get_y() + 1);
+                array[i.get_x()][i.get_y()] = "  V ";
+            }
+
         default:
             break;
         }
@@ -294,28 +317,36 @@ void move_update(string** array, graphics& i) {     //συναρτηση που 
         result = z.input();
         switch (result) {
         case 1:
-            if (check_if_allowed(z.get_x() + 1, z.get_y(), array))
+            if (check_if_allowed(z.get_x() + 1, z.get_y(), array)) {
                 array[z.get_x()][z.get_y()] = ":__:";
-            z.set_x(z.get_x() + 1);
-            array[z.get_x()][z.get_y()] = "  A  ";
+                z.set_x(z.get_x() + 1);
+                array[z.get_x()][z.get_y()] = "  A  ";
+            }
+
             break;
         case 2:
-            if (check_if_allowed(z.get_x() - 1, z.get_y(), array))
+            if (check_if_allowed(z.get_x() - 1, z.get_y(), array)) {
                 array[z.get_x()][z.get_y()] = ":__:";
-            z.set_x(z.get_x() - 1);
-            array[z.get_x()][z.get_y()] = "  A  ";
+                z.set_x(z.get_x() - 1);
+                array[z.get_x()][z.get_y()] = "  A  ";
+            }
+
             break;
         case 3:
-            if (check_if_allowed(z.get_x(), z.get_y() + 1, array))
+            if (check_if_allowed(z.get_x(), z.get_y() + 1, array)) {
                 array[z.get_x()][z.get_y()] = ":__:";
-            z.set_y(z.get_y() + 1);
-            array[z.get_x()][z.get_y()] = " A ";
+                z.set_y(z.get_y() + 1);
+                array[z.get_x()][z.get_y()] = " A ";
+            }
+
             break;
         case 4:
-            if (check_if_allowed(z.get_x(), z.get_y() - 1, array));
-            array[z.get_x()][z.get_y()] = ":__:";
-            z.set_y(z.get_y() - 1);
-            array[z.get_x()][z.get_y()] = "  A ";
+            if (check_if_allowed(z.get_x(), z.get_y() - 1, array)) {
+                array[z.get_x()][z.get_y()] = ":__:";
+                z.set_y(z.get_y() - 1);
+                array[z.get_x()][z.get_y()] = "  A ";
+            }
+
         default:
             break;
 
