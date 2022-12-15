@@ -21,7 +21,7 @@ void printing_map(string** array_for_map); // prints the map of the game
 string** map_create(); // creates the map with user input
 
 void game_update(string** array, vector<graphics> vec, avatars& i);
-void game_updateA_W(string** array,graphics&);
+void move_update(string** array, graphics& i);
 
 void will_it_attack(graphics&, graphics&);
 
