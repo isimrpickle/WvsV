@@ -23,9 +23,13 @@ int graphics::move() {
     default:
         break;
     }
+    return NULL;
 }
 int avatars:: input() {
    int i= GetKeyState(VK_NUMPAD0) & 0x8000;
+
+   this_thread::sleep_for(200ms);
+
    switch (i) {
    case 0x57:  //το virtual key του w
    case 0x26: //up arrow virtual key
@@ -45,6 +49,7 @@ int avatars:: input() {
    default:
        break;
     }
+   return NULL;
 }
 void graphics::health_decrease(int i) {}
 void graphics::health_increase(int i) {}
@@ -91,6 +96,7 @@ int vampires::move() {
     default:
         break;
     }
+    return NULL;
 }
 
 

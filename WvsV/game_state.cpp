@@ -86,121 +86,24 @@ bool check_if_allowed(unsigned short  x, unsigned short y, string** array) {
     return true;
 };
 
-/*void game_update(string** array, vector<graphics> vec, avatars& i) {
-    //bool changed = false;
-   // while (!changed) {
-    
-       /* switch (new_place) {
-            case 1:
-                if(check_if_allowed(i.get_x() + 1, i.get_y(), array));
-                array[i.get_x()][i.get_y()] = ":__:";
-                i.set_x(i.get_x() + 1);
-                
-                break;
-           case 2:
-               if (check_if_allowed(i.get_x() - 1, i.get_y(), array));
-               array[i.get_x()][i.get_y()] = ":__:";
-               i.set_x(i.get_x() - 1);
-               array[i.get_x()][i.get_y()] = "  A ";
-               break;
-            case 3:
-                if (check_if_allowed(i.get_x(), i.get_y() + 1, array));
-                array[i.get_x()][i.get_y()] = ":__:";
-                i.set_y(i.get_y() + 1);
-                array[i.get_x()][i.get_y()] = " A ";
-                break;
-            case 4:
-                if (check_if_allowed(i.get_x(), i.get_y() - 1, array));
-                array[i.get_x()][i.get_y()] = ":__:";
-                i.set_y(i.get_y() - 1);
-                array[i.get_x()][i.get_y()] = "  A ";
-            default:
-                break;
-
-        }         */
-
-    /*for (auto graph = vec.begin(); graph != vec.end(); graph++) {
-        graphics current_character = *graph;
-        if (current_character.get_type() == WEREWOLF || current_character.get_type() == AVATAR)
-            game_updateA_W(array, current_character);
-        else {
-            unsigned short new_place = i.move();
-
-            switch (new_place) {
-            case 1:
-                if (check_if_allowed(current_character.get_x() + 1, current_character.get_y(), array));
-                array[current_character.get_x()][current_character.get_y()] = ":__:";
-                current_character.set_x(current_character.get_x() + 1);
-                array[current_character.get_x()][current_character.get_y()] = "  V ";
-                break;
-            case 2:
-                if ( (current_character.get_x() - 1, current_character.get_y(), array));
-                array[current_character.get_x()][current_character.get_y()] = ":__:";
-                current_character.set_x(current_character.get_x() - 1);
-                array[current_character.get_x()][current_character.get_y()] = "  V ";
-                break;
-            case 3:
-                if (check_if_allowed(current_character.get_x(), current_character.get_y() + 1, array));
-                array[current_character.get_x()][current_character.get_y()] = ":__:";
-                current_character.set_y(current_character.get_y() + 1);
-                array[current_character.get_x()][current_character.get_y()] = " V ";
-                break;
-            case 4:
-                if (check_if_allowed(current_character.get_x(), current_character.get_y() - 1, array));
-                array[current_character.get_x()][current_character.get_y()] = ":__:";
-                current_character.set_y(current_character.get_y() - 1);
-                array[current_character.get_x()][current_character.get_y()] = "  V ";
-                break;
-            case 5:
-                if (check_if_allowed(current_character.get_x() + 1, current_character.get_y() + 1,array)) 
-                    array[current_character.get_x()][current_character.get_y()] = ":__:";
-                    current_character.set_x(current_character.get_x() + 1);
-                    current_character.set_y(current_character.get_y() + 1);
-                    array[current_character.get_x()][current_character.get_y()] = "  V ";
-                break;
-            case 6:
-                if (check_if_allowed(current_character.get_x() + 1, current_character.get_y() - 1, array))
-                     array[current_character.get_x()][current_character.get_y()] = ":__:";
-                     current_character.set_x(current_character.get_x() + 1);
-                     current_character.set_y(current_character.get_y() - 1);
-                     array[current_character.get_x()][current_character.get_y()] = "  V ";
-                break;
-            case 7:
-                if (check_if_allowed(current_character.get_x() - 1, current_character.get_y() + 1, array))
-                    array[current_character.get_x()][current_character.get_y()] = ":__:";
-                    current_character.set_x(current_character.get_x() -1);
-                    current_character.set_y(current_character.get_y() +1);
-                    array[current_character.get_x()][current_character.get_y()] = "  V ";
-                break;
-            case 8:
-                if (check_if_allowed(current_character.get_x() - 1, current_character.get_y() + 1, array))
-                    array[current_character.get_x()][current_character.get_y()] = ":__:";
-                current_character.set_x(current_character.get_x() - 1);
-                current_character.set_y(current_character.get_y() + 1);
-                array[current_character.get_x()][current_character.get_y()] = "  V ";
-            default:
-                break;
-            }
-
-        }
-    }
-    
-    
-} */
 
 void game_update(string** array, vector<graphics> vec, avatars& i) {
+    //int movement = GetKeyState(VK_NUMPAD0) & 0x8000;
+    move_update(array, i, i.input());
+
     for (auto graph = vec.begin(); graph != vec.end(); graph++) {
         graphics current_character = *graph;
-        move_update(array, current_character);
+        move_update(array, current_character, current_character.move());
     }
+    printing_map(array);
 }
 
 
-void move_update(string** array, graphics& i) {     //συναρτηση που προυποθετει να γινεται διασχιση του vector απο πριν καθως και ελεγχος πως καλειται μόνο σε Αβαταρ ή werewolf!
-    unsigned short int result;
+void move_update(string** array, graphics& i, int move) {     //συναρτηση που προυποθετει να γινεται διασχιση του vector απο πριν καθως και ελεγχος πως καλειται μόνο σε Αβαταρ ή werewolf!
+    //unsigned short int result;
     if (i.get_type() == WEREWOLF) {
-        result = i.move();
-        switch (result) {
+        //result = i.move();
+        switch (move) {
         case 1:
             if (check_if_allowed(i.get_x() + 1, i.get_y(), array)) {
                 array[i.get_x()][i.get_y()] = ":__:";
@@ -226,7 +129,7 @@ void move_update(string** array, graphics& i) {     //συναρτηση που 
             }
             break;   
         case 4:
-            if (check_if_allowed(i.get_x(), i.get_y() - 1, array)); {
+            if (check_if_allowed(i.get_x(), i.get_y() - 1, array)) {
                 array[i.get_x()][i.get_y()] = ":__:";
                 i.set_y(i.get_y() - 1);
                 array[i.get_x()][i.get_y()] = "  w ";
@@ -236,10 +139,9 @@ void move_update(string** array, graphics& i) {     //συναρτηση που 
             break;
         }
     }
-
     else if (i.get_type() == VAMPIRE) {
-        result = i.move();
-        switch (result) {
+      //  result = i.move();
+        switch (move) {
         case 1:
             if (check_if_allowed(i.get_x() + 1, i.get_y(), array)) {
                 array[i.get_x()][i.get_y()] = ":__:";
@@ -249,7 +151,7 @@ void move_update(string** array, graphics& i) {     //συναρτηση που 
 
             break;
         case 2:
-            if ((i.get_x() - 1, i.get_y(), array)) {
+            if (check_if_allowed(i.get_x() - 1, i.get_y(), array)) {
                 array[i.get_x()][i.get_y()] = ":__:";
                 i.set_x(i.get_x() - 1);
                 array[i.get_x()][i.get_y()] = "  V ";
@@ -311,40 +213,36 @@ void move_update(string** array, graphics& i) {     //συναρτηση που 
         }
     }
     else {
-        avatars z;
-        z.set_x(i.get_x());   // ορίζω το αβαταρ να παρει τις ιδιες συντεταγμένες με το αβαταρ που βρηκα μεσα  απο την λοοπ που θα διαρεει το vector
-        z.set_y(i.get_y());   
-        result = z.input();
-        switch (result) {
+        switch (move) {
         case 1:
-            if (check_if_allowed(z.get_x() + 1, z.get_y(), array)) {
-                array[z.get_x()][z.get_y()] = ":__:";
-                z.set_x(z.get_x() + 1);
-                array[z.get_x()][z.get_y()] = "  A  ";
+            if (check_if_allowed(i.get_x() + 1, i.get_y(), array)) {
+                array[i.get_x()][i.get_y()] = ":__:";
+                i.set_x(i.get_x() + 1);
+                array[i.get_x()][i.get_y()] = "  A  ";
             }
 
             break;
         case 2:
-            if (check_if_allowed(z.get_x() - 1, z.get_y(), array)) {
-                array[z.get_x()][z.get_y()] = ":__:";
-                z.set_x(z.get_x() - 1);
-                array[z.get_x()][z.get_y()] = "  A  ";
+            if (check_if_allowed(i.get_x() - 1, i.get_y(), array)) {
+                array[i.get_x()][i.get_y()] = ":__:";
+                i.set_x(i.get_x() - 1);
+                array[i.get_x()][i.get_y()] = "  A  ";
             }
 
             break;
         case 3:
-            if (check_if_allowed(z.get_x(), z.get_y() + 1, array)) {
-                array[z.get_x()][z.get_y()] = ":__:";
-                z.set_y(z.get_y() + 1);
-                array[z.get_x()][z.get_y()] = " A ";
+            if (check_if_allowed(i.get_x(), i.get_y() + 1, array)) {
+                array[i.get_x()][i.get_y()] = ":__:";
+                i.set_y(i.get_y() + 1);
+                array[i.get_x()][i.get_y()] = " A ";
             }
 
             break;
         case 4:
-            if (check_if_allowed(z.get_x(), z.get_y() - 1, array)) {
-                array[z.get_x()][z.get_y()] = ":__:";
-                z.set_y(z.get_y() - 1);
-                array[z.get_x()][z.get_y()] = "  A ";
+            if (check_if_allowed(i.get_x(), i.get_y() - 1, array)) {
+                array[i.get_x()][i.get_y()] = ":__:";
+                i.set_y(i.get_y() - 1);
+                array[i.get_x()][i.get_y()] = "  A ";
             }
 
         default:
@@ -354,10 +252,6 @@ void move_update(string** array, graphics& i) {     //συναρτηση που 
     }
 }
            
-
-
-            
-
 
 
 string** map_create() {
@@ -379,6 +273,7 @@ string** map_create() {
     string** array_for_map = create_array_for_map();
 
     avatars avatar;
+    avatar.set_type(AVATAR);
     avatar.set_x(rand() % x_for_map);
     avatar.set_y(rand() % y_for_map);
 
@@ -424,8 +319,10 @@ string** map_create() {
     }
 
     printing_map(array_for_map);
+    //int exit;
 
-    next_to_me(array_for_map, enemies);
+    game_update(array_for_map, enemies, avatar);
+    //next_to_me(array_for_map, enemies);
 
     return array_for_map;
     

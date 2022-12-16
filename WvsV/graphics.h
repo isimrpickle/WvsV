@@ -6,6 +6,8 @@
 //#include "game_state.h"
 #include <cstdlib>
 #include <iostream>
+#include <chrono>
+#include <thread>
 
 
 using namespace std;
@@ -96,9 +98,12 @@ public:
 
 class avatars : public graphics {
     int potions;
+    char A;
 public:
     avatars () {
         potions = rand() % 2;
+        A = 'b';
     }
+    void set_char(char a) { A = a; };
     int input(); // the user moves the avatar
 };
