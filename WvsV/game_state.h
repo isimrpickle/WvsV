@@ -31,6 +31,7 @@ bool check_if_allowed(unsigned short  x, unsigned short y, string** array);// if
 
 void healing(graphics&,graphics&);// if a character has an ally then there is a posibilty of healing
 
+void run_away(graphics&, string**);
 
 //bool can_i_move(unsigned short place, string** array_for_map, unsigned short x, unsigned short y);
 

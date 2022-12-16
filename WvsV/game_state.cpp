@@ -337,12 +337,24 @@ void map_destroy_array(string*** array_for_map) {
     delete[] array_for_map;
 };
 
+void run_away(graphics& graphic, string** array) {
+    if (graphic.get_type() == WEREWOLF) {
+        for (int i = 1; i <= 4; i++) {
+            move_update(array, graphic, i);
+        }
+    }
+    else {
+        for (int i = 1; i <= 8; i++) {
+            move_update(array, graphic, i);
+        }
+    }
+}
 
-void will_it_attack(graphics& i, graphics& y) {
+void will_it_attack(graphics& i, graphics& y, string** array) {
     if (i.getpower() > y.getpower()) {   //βλεπουμε ποιος κανει το attack
         switch (rand() % 2) {
         case 0:
-            y.move();  //επιτυγχανεται η αποφυγη με συναρτηση move. Θα διορθωθει και αλλο!!
+            run_away(y,array);  //επιτυγχανεται η αποφυγη με συναρτηση move. Θα διορθωθει και αλλο!!
             break;
         case 1:
             if (i.getpower() > y.getdefense())  //Ελεγχουμε αν ο ατακερ εχει μεγαλυτερη δυναμη
@@ -353,7 +365,7 @@ void will_it_attack(graphics& i, graphics& y) {
         if (y.getpower() > i.getpower()) {
             switch (rand() % 2) {
             case 0:
-                i.move();  //επιτυγχανεται η αποφυγη με συναρτηση move. Θα διορθωθει και αλλο!!
+                run_away(i, array);  //επιτυγχανεται η αποφυγη με συναρτηση move. Θα διορθωθει και αλλο!!
                 break;
             case 1:
                 if (y.getpower() > i.getdefense())
