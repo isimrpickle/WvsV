@@ -88,8 +88,12 @@ bool check_if_allowed(unsigned short  x, unsigned short y, string** array) {
 
 
 void game_update(string** array, vector<graphics> vec, avatars& i) {
-    //int movement = GetKeyState(VK_NUMPAD0) & 0x8000;
-    move_update(array, i, i.input());
+   // int movement = GetKeyState(VK_NUMPAD0) & 0x8000;
+    char movement;
+    cin >> movement;
+    //VkKeyScanA(movement);
+
+    move_update(array, i, i.input(movement));
 
     for (auto graph = vec.begin(); graph != vec.end(); graph++) {
         graphics current_character = *graph;
@@ -218,7 +222,7 @@ void move_update(string** array, graphics& i, int move) {     //συναρτησ
             if (check_if_allowed(i.get_x() + 1, i.get_y(), array)) {
                 array[i.get_x()][i.get_y()] = ":__:";
                 i.set_x(i.get_x() + 1);
-                array[i.get_x()][i.get_y()] = "  A  ";
+                array[i.get_x()][i.get_y()] = " A  ";
             }
 
             break;
@@ -226,7 +230,7 @@ void move_update(string** array, graphics& i, int move) {     //συναρτησ
             if (check_if_allowed(i.get_x() - 1, i.get_y(), array)) {
                 array[i.get_x()][i.get_y()] = ":__:";
                 i.set_x(i.get_x() - 1);
-                array[i.get_x()][i.get_y()] = "  A  ";
+                array[i.get_x()][i.get_y()] = "  A ";
             }
 
             break;

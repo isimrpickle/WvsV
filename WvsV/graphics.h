@@ -105,5 +105,5 @@ public:
         A = 'b';
     }
     void set_char(char a) { A = a; };
-    int input(); // the user moves the avatar
+    int input(int i); // the user moves the avatar
 };

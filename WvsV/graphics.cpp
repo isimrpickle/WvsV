@@ -10,41 +10,42 @@ using namespace std;
 int graphics::move() {
     switch (1 + rand() % 4) {  // οι περιπτωσεις να μετακινηθει προς οποιαδήποτε κατευθυνση είναι ισοπίθανη
     case 1:
-        return 1; // x++
+        return 1; // x++, goes one place down
         break;
     case 2:
-        return 2; // x--
+        return 2; // x--, goes one place up
         break;
     case 3:
-        return 3; // y++
+        return 3; // y++, goes right
         break;
     case 4:
-        return 4; //y--
+        return 4; //y--, goes left
     default:
         break;
     }
     return NULL;
 }
-int avatars:: input() {
-   int i= GetKeyState(VK_NUMPAD0) & 0x8000;
+
+int avatars:: input(int i) {
+   //
 
    this_thread::sleep_for(200ms);
 
    switch (i) {
-   case 0x57:  //το virtual key του w
-   case 0x26: //up arrow virtual key
+   //case 0x57:  //το virtual key του w
+   case 's': //up arrow virtual key
        return 1; //x++
        break;  // 1 break γιατι εκτελουν την ίδια εντολή οπότε έχουμε 2 πανομοιοτυπα cases που λειτουργουν ως 1
-   case 0x53: // virtual key "s"
-   case 0x28: //down arrow virtual key
+  // case 0x53: // virtual key "s"
+   case  'w': //down arrow virtual key
        return 2; //x--
        break;
-   case 0x41: // a virtual key
-   case 0x25: //left arrow virtual key
+   //case 0x41: // a virtual key
+   case 'd': //left arrow virtual key
        return 3; //y++
        break;
-   case 0x44: // virtual key D
-   case 0x27: //virtual key right arrow key
+  // case 0x44: // virtual key D
+   case 'a': //virtual key right arrow key
        return 4; //y--
    default:
        break;
@@ -71,10 +72,10 @@ void vampires::printstats()const {
 int vampires::move() {
     switch (1 + rand() % 8) {  // οι περιπτωσεις να μετακινηθει προς οποιαδήποτε κατευθυνση είναι ισοπίθανη
     case 1:
-        return 1; // x++
+        return 1; // x++, v goes down
         break;
     case 2:
-        return 2; //x--
+        return 2; //x--, v goes up
         break;
     case 3:
         return 3; // y++
