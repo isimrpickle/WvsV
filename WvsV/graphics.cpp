@@ -29,7 +29,7 @@ int graphics::move() {
 int avatars::input(int i) {
     //
 
-    this_thread::sleep_for(200ms);
+    
 
     switch (i) {
         //case 0x57:  //το virtual key του w

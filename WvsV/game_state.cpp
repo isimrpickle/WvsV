@@ -3,7 +3,9 @@
 #include "graphics.h"
 #include <string>
 #include <windows.h>
+#include <conio.h> //χρηση του getch() για αμεσο input στη κινηση του αβαταρ (δεν χρειαζεται το εντερ)
 using namespace std;
+#define esc 27;
 unsigned short x_for_map, y_for_map;
 string** create_array_for_map() {
     string** array_for_map = new string * [x_for_map];
@@ -85,21 +87,27 @@ bool check_if_allowed(unsigned short x, unsigned short y, string** array) {
 };
 void game_update(string** array, vector<vampires> vamps,vector<werewolves> lukoi, avatars& i) {
     // int movement = GetKeyState(VK_NUMPAD0) & 0x8000;
-    next_to_me(array, vamps, lukoi);
-    char movement;
-    cin >> movement;
-    // VkKeyScanA(movement);
-    move_update(array, i, i.input(movement));
-    for (auto graph = vamps.begin(); graph != vamps.end(); graph++) {
-        graphics current_character = *graph;
-        move_update(array, current_character, current_character.move());
-    }
-    for (auto graph = lukoi.begin(); graph != lukoi.end(); graph++) {
-        graphics current_character = *graph;
-        move_update(array, current_character, current_character.move());
-    }
-    printing_map(array);
+    int  movement;
+    do {
+        this_thread::sleep_for(200ms);
+        next_to_me(array, vamps, lukoi);
+        movement = _getch();
+         if (movement== '27')  // ascii code for esc
+             break;
+        // VkKeyScanA(movement);
+        move_update(array, i, i.input(movement));
+        for (auto graph = vamps.begin(); graph != vamps.end(); graph++) {
+            graphics current_character = *graph;
+            move_update(array, current_character, current_character.move());
+        }
+        for (auto graph = lukoi.begin(); graph != lukoi.end(); graph++) {
+            graphics current_character = *graph;
+            move_update(array, current_character, current_character.move());
+        }
+        printing_map(array);
+    } while (vamps.size() > 0 || lukoi.size() > 0);
 }
+
 void move_update(string** array, graphics& i, int move) { // συναρτηση που προυποθετει να γινεται διασχιση του vector απο πριν καθως και ελεγχος πως καλειται μόνο σε Αβαταρ ή werewolf!
     // unsigned short int result;
     if (i.get_type() == WEREWOLF) {
@@ -389,3 +397,4 @@ void healing(graphics& i, graphics& y)
         }
     }
 }
+
