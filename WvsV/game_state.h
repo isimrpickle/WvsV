@@ -4,9 +4,11 @@
 #include "graphics.h"
 using namespace std;
 
+void map_destroy_array(string*** array_for_map);
+
 string** create_array_for_map(); // creates an array that consists of the graphics of the game
 
-void printing_map(string** array_for_map); // prints the map of the game 
+void printing_map(string** array_for_map, vector<vampires>vamps, vector<werewolves> lykoi, avatars av); // prints the map of the game 
 
 string** map_create(); // creates the map with user input
 

@@ -5,7 +5,7 @@
 #include <windows.h>
 #include <conio.h> //χρηση του getch() για αμεσο input στη κινηση του αβαταρ (δεν χρειαζεται το εντερ)
 using namespace std;
-#define esc 27;
+
 unsigned short x_for_map, y_for_map;
 string** create_array_for_map() {
     string** array_for_map = new string * [x_for_map];
@@ -19,8 +19,23 @@ string** create_array_for_map() {
     }
     return array_for_map;
 }
-void printing_map(string** array_for_map) {
+void printing_map(string** array_for_map, vector<vampires>vamps,vector<werewolves> lykoi, avatars av) {
     cout << system("cls") << endl;
+    for (int i = 0; i < x_for_map; i++) {
+        for (int n = 0; n < y_for_map; n++) {
+            if(array_for_map[i][n]!= " || " && array_for_map[i][n] != " ~~ ")
+            array_for_map[i][n] = ":__:";
+        }
+    }
+    array_for_map[av.get_x()][av.get_y()] = " A ";
+    for (int i = 0; i < vamps.size(); i++) {
+        array_for_map[vamps[i].get_x()][vamps[i].get_y()] = " V ";
+    }
+
+    for (int i = 0; i < lykoi.size(); i++) {
+        array_for_map[lykoi[i].get_x()][lykoi[i].get_y()] = " W ";
+    }
+
     for (int i = 0; i < x_for_map; i++) {
         for (int n = 0; n < y_for_map; n++) {
             cout << array_for_map[i][n];
@@ -110,15 +125,15 @@ void game_update(string** array, vector<vampires> vamps,vector<werewolves> lukoi
              break;
 
         move_update(array, i, i.input(movement));
-        for (auto graph = vamps.begin(); graph != vamps.end(); graph++) {
-            graphics current_character = *graph;
-            move_update(array, current_character, current_character.move());
+        for (int i = 0; i < vamps.size(); i++) {
+            move_update(array, vamps[i], vamps[i].move());
         }
-        for (auto graph = lukoi.begin(); graph != lukoi.end(); graph++) {
-            graphics current_character = *graph;
-            move_update(array, current_character, current_character.move());
+        for (int i = 0; i < lukoi.size(); i++) {
+            move_update(array, lukoi[i], lukoi[i].move());
         }
-        printing_map(array);
+        
+        
+        printing_map(array,vamps,lukoi,i);
     } while (vamps.size() > 0 || lukoi.size() > 0);
 }
 
@@ -128,33 +143,24 @@ void move_update(string** array, graphics& i, int move) { // συναρτηση 
         // result = i.move();
         switch (move) {
         case 1:
-            if (check_if_allowed(i.get_x() + 1, i.get_y(), array)) {
-                array[i.get_x()][i.get_y()] = ":__:";
+            if (check_if_allowed(i.get_x() + 1, i.get_y(), array)) 
                 i.set_x(i.get_x() + 1);
-                array[i.get_x()][i.get_y()] = "  W  ";
-            }
 
             break;
         case 2:
-            if (check_if_allowed(i.get_x() - 1, i.get_y(), array)) {
-                array[i.get_x()][i.get_y()] = ":__:";
+            if (check_if_allowed(i.get_x() - 1, i.get_y(), array)) 
                 i.set_x(i.get_x() - 1);
-                array[i.get_x()][i.get_y()] = "  w  ";
-            }
+            
             break;
         case 3:
-            if (check_if_allowed(i.get_x(), i.get_y() + 1, array)) {
-                array[i.get_x()][i.get_y()] = ":__:";
+            if (check_if_allowed(i.get_x(), i.get_y() + 1, array)) 
                 i.set_y(i.get_y() + 1);
-                array[i.get_x()][i.get_y()] = " W ";
-            }
+            
             break;
         case 4:
-            if (check_if_allowed(i.get_x(), i.get_y() - 1, array)) {
-                array[i.get_x()][i.get_y()] = ":__:";
+            if (check_if_allowed(i.get_x(), i.get_y() - 1, array)) 
                 i.set_y(i.get_y() - 1);
-                array[i.get_x()][i.get_y()] = "  w ";
-            }
+
             break;
         default:
             break;
@@ -171,58 +177,45 @@ void move_update(string** array, graphics& i, int move) { // συναρτηση 
             }
             break;
         case 2:
-            if (check_if_allowed(i.get_x() - 1, i.get_y(), array)) {
-                array[i.get_x()][i.get_y()] = ":__:";
+            if (check_if_allowed(i.get_x() - 1, i.get_y(), array)) 
                 i.set_x(i.get_x() - 1);
-                array[i.get_x()][i.get_y()] = "  V ";
-            }
+            
 
             break;
         case 3:
-            if (check_if_allowed(i.get_x(), i.get_y() + 1, array)) {
-                array[i.get_x()][i.get_y()] = ":__:";
+            if (check_if_allowed(i.get_x(), i.get_y() + 1, array)) 
                 i.set_y(i.get_y() + 1);
-                array[i.get_x()][i.get_y()] = " V ";
-            }
+            
 
             break;
         case 4:
-            if (check_if_allowed(i.get_x(), i.get_y() - 1, array)) {
-                array[i.get_x()][i.get_y()] = ":__:";
+            if (check_if_allowed(i.get_x(), i.get_y() - 1, array))
                 i.set_y(i.get_y() - 1);
-                array[i.get_x()][i.get_y()] = "  V ";
-            }
             break;
         case 5:
             if (check_if_allowed(i.get_x() + 1, i.get_y() + 1, array)) {
-                array[i.get_x()][i.get_y()] = ":__:";
                 i.set_x(i.get_x() + 1);
                 i.set_y(i.get_y() + 1);
-                array[i.get_x()][i.get_y()] = "  V ";
             }
+
             break;
         case 6:
             if (check_if_allowed(i.get_x() + 1, i.get_y() - 1, array)) {
-                array[i.get_x()][i.get_y()] = ":__:";
-                i.set_x(i.get_x() + 1);
+                 i.set_x(i.get_x() + 1);
                 i.set_y(i.get_y() - 1);
-                array[i.get_x()][i.get_y()] = "  V ";
             }
+               
             break;
         case 7:
             if (check_if_allowed(i.get_x() - 1, i.get_y() + 1, array)) {
-                array[i.get_x()][i.get_y()] = ":__:";
                 i.set_x(i.get_x() - 1);
                 i.set_y(i.get_y() + 1);
-                array[i.get_x()][i.get_y()] = "  V ";
             }
             break;
         case 8:
             if (check_if_allowed(i.get_x() - 1, i.get_y() + 1, array)) {
-                array[i.get_x()][i.get_y()] = ":__:";
                 i.set_x(i.get_x() - 1);
                 i.set_y(i.get_y() + 1);
-                array[i.get_x()][i.get_y()] = "  V ";
             }
         default:
             break;
@@ -307,8 +300,6 @@ string** map_create() {
 
         fix_position(array_for_map, vampire);
 
-        array_for_map[vampire.get_x()][vampire.get_y()] = "  V ";
-
         werewolf.set_x(rand() % x_for_map);
         werewolf.set_y(rand() % y_for_map);
         werewolf.set_type(WEREWOLF);
@@ -316,8 +307,6 @@ string** map_create() {
         werewolf.set_defense(rand() % 3);
 
         fix_position(array_for_map, werewolf);
-
-        array_for_map[werewolf.get_x()][werewolf.get_y()] = "  W ";
 
         lukoi.push_back(werewolf);
         the_vampires.push_back(vampire);
@@ -329,11 +318,12 @@ string** map_create() {
     }
 
 
-    printing_map(array_for_map);
-    // int exit;
+    printing_map(array_for_map, the_vampires,lukoi, avatar);
 
-   game_update(array_for_map,the_vampires,lukoi, avatar);
-    // next_to_me(array_for_map, enemies);
+    game_update(array_for_map,the_vampires,lukoi, avatar);
+    
+    map_destroy_array(&array_for_map);
+
     return array_for_map;
 };
 void map_destroy_array(string*** array_for_map) {
@@ -341,14 +331,21 @@ void map_destroy_array(string*** array_for_map) {
 };
 
 void run_away(graphics& graphic, string** array) {
+    bool changes = false;
+    int saved_x = graphic.get_x();
+    int saved_y = graphic.get_y();
     if (graphic.get_type() == WEREWOLF) {
         for (int i = 1; i <= 4; i++) {
             move_update(array, graphic, i);
+            if (saved_x != graphic.get_x() || saved_y != graphic.get_y())
+                break;
         }
     }
     else {
         for (int i = 1; i <= 8; i++) {
             move_update(array, graphic, i);
+            if (saved_x != graphic.get_x() || saved_y != graphic.get_y())
+                break;
         }
     }
 }
@@ -362,6 +359,7 @@ void will_it_attack(graphics& i, graphics& y, string** array) {
         case 1:
             if (i.getpower() > y.getdefense()) // Ελεγχουμε αν ο ατακερ εχει μεγαλυτερη δυναμη
                 y.health_decrease(i.getpower()); //μειωνουμε τη ζωη του αμυνομενου αναλογα το power του επιτεθομενου
+            cout << y.gethealth() << endl;
         default:
             break;
         }
@@ -374,6 +372,7 @@ void will_it_attack(graphics& i, graphics& y, string** array) {
         case 1:
             if (y.getpower() > i.getdefense())
                 i.health_decrease(y.getpower());
+            cout << i.gethealth() << endl;
         default:
             break;
         }
