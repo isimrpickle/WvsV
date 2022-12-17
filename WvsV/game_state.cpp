@@ -47,18 +47,18 @@ void next_to_me(string** array, vector<vampires> vamps,vector<werewolves>lukoi) 
         int p = 1;
         for (auto f = vamps.begin() + p; f != vamps.end(); f++) {
             vampires part_two = *f;
-            if (part_one.get_x() == part_two.get_x() && check_position(part_one.get_y(), part_two.get_y())) {
+            if (part_one.get_x() == part_two.get_x() && check_position(part_one.get_y(), part_two.get_y())) 
                 healing(part_one, part_two);
-            }
-            if (part_one.get_y() == part_two.get_y() && check_position(part_one.get_x(), part_two.get_x())) {
-                if (part_one.get_type() == part_two.get_type())
-                    healing(part_one, part_two);
-            }
+            
+            if (part_one.get_y() == part_two.get_y() && check_position(part_one.get_x(), part_two.get_x())) 
+                healing(part_one, part_two);
+            
         }
         for (auto p = lukoi.begin(); p != lukoi.end(); p++) {
             werewolves lukos = *p;
             if (lukos.get_x() == part_one.get_x() && check_position(lukos.get_y(), part_one.get_y()))
                 will_it_attack(lukos, part_one, array);
+
             if (lukos.get_y() == part_one.get_y() && check_position(lukos.get_x(), part_one.get_x()))
                 will_it_attack(lukos, part_one, array);
         }
@@ -72,7 +72,7 @@ void next_to_me(string** array, vector<vampires> vamps,vector<werewolves>lukoi) 
                     healing(part_one, part_two);
                 
                 if (part_one.get_y() == part_two.get_y() && check_position(part_one.get_x(), part_two.get_x())) 
-                        healing(part_one, part_two);    
+                    healing(part_one, part_two);    
             }
         }
    
@@ -92,7 +92,7 @@ void game_update(string** array, vector<vampires> vamps,vector<werewolves> lukoi
         this_thread::sleep_for(200ms);
         next_to_me(array, vamps, lukoi);
         movement = _getch();
-         if (movement== '27')  // ascii code for esc
+         if (movement== '\x1B')  // ascii code for esc
              break;
         // VkKeyScanA(movement);
         move_update(array, i, i.input(movement));
