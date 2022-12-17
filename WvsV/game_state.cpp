@@ -38,28 +38,42 @@ bool check_position(int one, int two) {
         return true;
     return false;
 };
-void next_to_me(string** array, vector<graphics> vec) {
-    for (auto i = vec.begin(); i != vec.end(); i++) {
-        graphics part_one = *i;
+
+void next_to_me(string** array, vector<vampires> vamps,vector<werewolves>lukoi) {
+    for (auto i = vamps.begin(); i != vamps.end(); i++) {
+        vampires part_one = *i;
         int p = 1;
-        for (auto f = vec.begin() + p; f != vec.end(); f++) {
-            graphics part_two = *f;
-            if (part_one.get_x() == part_two.get_x() &&
-                check_position(part_one.get_y(), part_two.get_y())) {
-                if (part_one.get_type() == part_two.get_type())
-                    healing(part_one, part_two);
-                else
-                    will_it_attack(part_one, part_two, array);
+        for (auto f = vamps.begin() + p; f != vamps.end(); f++) {
+            vampires part_two = *f;
+            if (part_one.get_x() == part_two.get_x() && check_position(part_one.get_y(), part_two.get_y())) {
+                healing(part_one, part_two);
             }
-            if (part_one.get_y() == part_two.get_y() &&
-                check_position(part_one.get_x(), part_two.get_x())) {
+            if (part_one.get_y() == part_two.get_y() && check_position(part_one.get_x(), part_two.get_x())) {
                 if (part_one.get_type() == part_two.get_type())
                     healing(part_one, part_two);
-                else
-                    will_it_attack(part_one, part_two, array);
             }
         }
+        for (auto p = lukoi.begin(); p != lukoi.end(); p++) {
+            werewolves lukos = *p;
+            if (lukos.get_x() == part_one.get_x() && check_position(lukos.get_y(), part_one.get_y()))
+                will_it_attack(lukos, part_one, array);
+            if (lukos.get_y() == part_one.get_y() && check_position(lukos.get_x(), part_one.get_x()))
+                will_it_attack(lukos, part_one, array);
+        }
     }
+        for (auto i = lukoi.begin(); i != lukoi.end(); i++) {
+            werewolves part_one = *i;
+            int p = 1;
+            for (auto f = lukoi.begin() + p; f != lukoi.end(); f++) {
+                werewolves part_two = *f;
+                if (part_one.get_x() == part_two.get_x() && check_position(part_one.get_y(), part_two.get_y())) 
+                    healing(part_one, part_two);
+                
+                if (part_one.get_y() == part_two.get_y() && check_position(part_one.get_x(), part_two.get_x())) 
+                        healing(part_one, part_two);    
+            }
+        }
+   
 };
 bool check_if_allowed(unsigned short x, unsigned short y, string** array) {
     if (x > x_for_map || y > y_for_map)
@@ -69,13 +83,18 @@ bool check_if_allowed(unsigned short x, unsigned short y, string** array) {
 
     return true;
 };
-void game_update(string** array, vector<graphics> vec, avatars& i) {
+void game_update(string** array, vector<vampires> vamps,vector<werewolves> lukoi, avatars& i) {
     // int movement = GetKeyState(VK_NUMPAD0) & 0x8000;
+    next_to_me(array, vamps, lukoi);
     char movement;
     cin >> movement;
     // VkKeyScanA(movement);
     move_update(array, i, i.input(movement));
-    for (auto graph = vec.begin(); graph != vec.end(); graph++) {
+    for (auto graph = vamps.begin(); graph != vamps.end(); graph++) {
+        graphics current_character = *graph;
+        move_update(array, current_character, current_character.move());
+    }
+    for (auto graph = lukoi.begin(); graph != lukoi.end(); graph++) {
         graphics current_character = *graph;
         move_update(array, current_character, current_character.move());
     }
@@ -233,13 +252,18 @@ string** map_create() {
         x_for_map = x;
         y_for_map = y;
     };
-    vector<graphics> enemies;
+    vector<vampires>the_vampires;
+    vector<werewolves> lukoi;
+
     string** array_for_map = create_array_for_map();
+
     avatars avatar;
     avatar.set_type(AVATAR);
     avatar.set_x(rand() % x_for_map);
     avatar.set_y(rand() % y_for_map);
+
     array_for_map[avatar.get_x()][avatar.get_y()] = "  A ";
+
     for (int i = 0; i <= (x_for_map * y_for_map) / 100; i++) {
         graphics tree(rand() % x_for_map, rand() % y_for_map, TREE);
         fix_position(array_for_map, tree);
@@ -257,6 +281,7 @@ string** map_create() {
         vampire.set_x(rand() % x_for_map);
         vampire.set_y(rand() % y_for_map);
         vampire.set_power(rand() % 4 + 1);
+        vampire.set_defense(rand() % 3);
 
         fix_position(array_for_map, vampire);
 
@@ -266,22 +291,26 @@ string** map_create() {
         werewolf.set_y(rand() % y_for_map);
         werewolf.set_type(WEREWOLF);
         werewolf.set_power(rand() % 4 + 1);
+        werewolf.set_defense(rand() % 3);
 
         fix_position(array_for_map, werewolf);
 
         array_for_map[werewolf.get_x()][werewolf.get_y()] = "  W ";
 
-        enemies.push_back(vampire);
-        enemies.push_back(werewolf);
+        lukoi.push_back(werewolf);
+        the_vampires.push_back(vampire);
 
     }
-    for (int i = 0; i != enemies.size(); i++) {
-        cout << enemies[i].getpower() << endl;
+    for (int i = 0; i != the_vampires.size(); i++) {
+        cout << the_vampires[i].gethealth() << " vamp \n";
+        cout << lukoi[i].gethealth() << endl;
     }
+
+
     printing_map(array_for_map);
     // int exit;
 
-    game_update(array_for_map, enemies, avatar);
+   game_update(array_for_map,the_vampires,lukoi, avatar);
     // next_to_me(array_for_map, enemies);
     return array_for_map;
 };
