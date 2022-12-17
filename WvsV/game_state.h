@@ -28,5 +28,7 @@ void run_away(graphics&, string**);
 
 void paused(vector<vampires> vamps, vector<werewolves> lukoi, avatars& i);
 
+bool weather();
+
 
 
