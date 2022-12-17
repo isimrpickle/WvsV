@@ -26,36 +26,36 @@ int graphics::move() {
     return NULL;
 }
 
-int avatars:: input(int i) {
-   //
+int avatars::input(int i) {
+    //
 
-   this_thread::sleep_for(200ms);
+    this_thread::sleep_for(200ms);
 
-   switch (i) {
-   //case 0x57:  //το virtual key του w
-   case 's': //up arrow virtual key
-       return 1; //x++
-       break;  // 1 break γιατι εκτελουν την ίδια εντολή οπότε έχουμε 2 πανομοιοτυπα cases που λειτουργουν ως 1
-  // case 0x53: // virtual key "s"
-   case  'w': //down arrow virtual key
-       return 2; //x--
-       break;
-   //case 0x41: // a virtual key
-   case 'd': //left arrow virtual key
-       return 3; //y++
-       break;
-  // case 0x44: // virtual key D
-   case 'a': //virtual key right arrow key
-       return 4; //y--
-   default:
-       break;
+    switch (i) {
+        //case 0x57:  //το virtual key του w
+    case 's': //up arrow virtual key
+        return 1; //x++
+        break;  // 1 break γιατι εκτελουν την ίδια εντολή οπότε έχουμε 2 πανομοιοτυπα cases που λειτουργουν ως 1
+        // case 0x53: // virtual key "s"
+    case  'w': //down arrow virtual key
+        return 2; //x--
+        break;
+        //case 0x41: // a virtual key
+    case 'd': //left arrow virtual key
+        return 3; //y++
+        break;
+        // case 0x44: // virtual key D
+    case 'a': //virtual key right arrow key
+        return 4; //y--
+    default:
+        break;
     }
-   return NULL;
+    return NULL;
 }
 void graphics::health_decrease(int i) {}
 void graphics::health_increase(int i) {}
 
-void werewolves::health_decrease(int i) { this->health -= i;}
+void werewolves::health_decrease(int i) { this->health -= i; }
 void werewolves::health_increase(int i) { this->health += i; }
 
 void vampires::health_decrease(int i) { this->health -= i; }
@@ -65,7 +65,7 @@ void werewolves::printstats_w()const {
     cout << "the power, the defense and the health are:" << getpower() << "," << getdefense() << "," << gethealth() << endl;
 }
 
-void vampires::printstats()const {
+void vampires::printstats() const {
     cout << "the power, the defense and the health are:" << getpower() << "," << getdefense() << "," << gethealth() << endl;
 }
 
@@ -99,5 +99,3 @@ int vampires::move() {
     }
     return NULL;
 }
-
-

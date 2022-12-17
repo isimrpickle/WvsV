@@ -1,3 +1,4 @@
+
 #pragma once
 
 
@@ -21,25 +22,22 @@ typedef enum {
 
 class graphics {
     //static unsigned num_ofgraphics;
-    unsigned short int power, defense;
-
     unsigned short int x;
     unsigned short int y;
     GraphicType type;
+    unsigned short int power;
 public:
     graphics() {
         this->x = 0;
         this->y = 0;
-        this->power = 0;
-        this->defense = 0;
         this->type = EARTH;
+        this->power = 0;
     }
-    graphics(unsigned short int x_, int y_, GraphicType type_ = EARTH , int y = 4, int p =3) {
+    graphics(unsigned short int x_, int y_, GraphicType type_ = EARTH, unsigned short int p = rand() % 4 + 1) {
         this->x = x_;
         this->y = y_;
-        this->power = rand() % 4 + 1;
-        this->defense = rand() % 4;
         this->type = type_;
+        this->power = p;
     };
     virtual int move();
     void set_type(GraphicType type_) { this->type = type_; };
@@ -50,13 +48,13 @@ public:
     unsigned short int get_y() { return y; };
     unsigned short int get_x() { return x; };
     GraphicType get_id(graphics example) { return example.type; };
-    virtual int getpower()const { return NULL; }
+    virtual int getpower()const { return power; }
     virtual int getdefense()const { return NULL; }
     virtual int gethealth()const { return NULL; }
     virtual void health_decrease(int);
     virtual void health_increase(int);
     virtual int get_potions() { return NULL; }
-    virtual void set_power(int i) {};
+    virtual void set_power(int i) { this->power = i; };
     //void update_charactes(graphics example, unsigned short int map_x, unsigned short int mapy);
 };
 
@@ -65,60 +63,60 @@ public:
 class vampires : public graphics {
     unsigned short int health;
 
-    unsigned short int power;
+    // unsigned short int power;
     unsigned short int defense;
     unsigned short int potions;
 
 public:
     vampires() {
         srand((unsigned)time(0));
-        this->power = rand() % 4 + 1;
+        // this->power = rand() % 4 + 1;
         this->defense = rand() % 3;
         this->health = 10;
         this->potions = rand() % 2;
     };
     int move();
-    void set_power(int i) { this->power = i; }
-    int getpower() const { return this->power; }
-    int getdefense()const { return this->defense; }
+    // void set_power(int i) { this->power = i; }
+     //int getpower() const { return this->power; }
+    int getdefense()const { return defense; }
     int gethealth()const { return this->health; }
     void printstats()const;
     void health_decrease(int);
-    int get_potions ()const{ return this->potions; }
+    int get_potions()const { return this->potions; }
     void health_increase(int);
 
 };
 
 
-   
+
 class werewolves : public graphics {
-    unsigned short int power, defense, health,potions;
+    unsigned short int  defense, health, potions;
 public:
     werewolves() {
         srand((unsigned)time(0));
-        this->power = rand() % 4;
+        //this->power = rand() % 4;
         this->defense = rand() % 3;
         this->health = 10;
         this->potions = rand() % 2;
     };
-    void set_power(int i) { this->power = i; }
-    int getpower() const { return this->power; }
+    //void set_power(int i) { this->power = i; }
+    //int getpower() const { return this->power; }
     int getdefense()const { return this->defense; }
     int gethealth()const { return this->health; }
     int get_potions()const { return this->potions; }
     void printstats_w()const;
-    void health_decrease(int );
+    void health_decrease(int);
     void health_increase(int);
 };
 
-   
+
 
 
 class avatars : public graphics {
     int potions;
     char A;
 public:
-    avatars () {
+    avatars() {
         potions = rand() % 2;
         A = 'b';
     }
