@@ -3,8 +3,7 @@
 #include <stdlib.h>
 #include "graphics.h"
 using namespace std;
-//bool is_someone_next_to_me(string** array, graphics graphic);
-//void fix_position(string** array, graphics& graphic);
+
 string** create_array_for_map(); // creates an array that consists of the graphics of the game
 
 void printing_map(string** array_for_map); // prints the map of the game 
@@ -25,6 +24,7 @@ void healing(graphics&, graphics&);// if a character has an ally then there is a
 
 void run_away(graphics&, string**);
 
-//bool can_i_move(unsigned short place, string** array_for_map, unsigned short x, unsigned short y);
+void paused(vector<vampires> vamps, vector<werewolves> lukoi, avatars& i);
+
 
 

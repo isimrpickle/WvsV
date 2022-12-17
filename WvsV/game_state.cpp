@@ -88,27 +88,16 @@ bool check_if_allowed(unsigned short x, unsigned short y, string** array) {
 
 void paused(vector<vampires> vamps, vector<werewolves> lukoi, avatars& i) {
     int exit = 0;
-
-   // cout << "Waiting until you press: 0\n";
-    cout << "Number of vampires : " << vamps.size() << "\nNumber of werewolves : " << lukoi.size();
+    cout <<" The game is paused \nNumber of vampires : " << vamps.size() << "\nNumber of werewolves : " << lukoi.size();
     while (exit != 1) {
-
-        //this_thread::sleep_for(200ms);	// for the time pace
         exit = _getch();
-        if (exit == 'p') // key press
-        {				      // 0x50 -> key is
-            cout << "\nexit\n";	     // currently pressed
-            exit = 1;
-        }
-
+        if (exit == 'p') 
+            exit = 1;       
     }
-
-
-
-   
+  
 };
+
 void game_update(string** array, vector<vampires> vamps,vector<werewolves> lukoi, avatars& i) {
-    // int movement = GetKeyState(VK_NUMPAD0) & 0x8000;
     int  movement;
     do {
         this_thread::sleep_for(200ms);
@@ -117,9 +106,9 @@ void game_update(string** array, vector<vampires> vamps,vector<werewolves> lukoi
         if (movement == 'p')
             paused(vamps, lukoi, i);
 
-         if (movement== '\x1B')  // ascii code for esc
+         if (movement== '\x1B')  //vk number for esc
              break;
-        // VkKeyScanA(movement);
+
         move_update(array, i, i.input(movement));
         for (auto graph = vamps.begin(); graph != vamps.end(); graph++) {
             graphics current_character = *graph;
