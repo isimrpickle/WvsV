@@ -76,6 +76,7 @@ public:
         this->potions = rand() % 2;
     };
     int move();
+    void health_regain() { health = 10; };
      void set_power(int i) { this->power = i; }
      void set_defense(int i) { this->defense = i; }
      int getpower() const { return this->power; }
@@ -100,6 +101,7 @@ public:
         this->health = 10;
         this->potions = rand() % 2;
     };
+    void health_regain() { health = 10; };
     void set_power(int i) { this->power = i; }
     int getpower() const { return this->power; }
     void set_defense(int i) { this->defense = i; }
@@ -122,6 +124,7 @@ public:
         potions = rand() % 2;
         A = 'b';
     }
+    char get_team() { return A; };
     void set_potions(int i) { potions = i; };
     void set_char(char a) { A = a; };
     int input(int i); // the user moves the avatar

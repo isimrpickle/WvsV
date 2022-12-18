@@ -21,8 +21,9 @@ string** create_array_for_map() {
 
     return array_for_map;
 }
-void printing_map(string** array_for_map, vector<vampires>vamps,vector<werewolves> lykoi, avatars av, graphics potion) {
+void printing_map(string** array_for_map, vector<vampires>vamps,vector<werewolves> lykoi, avatars av, graphics potion, bool day) {
     cout << system("cls") << endl;
+    day == 1 ? cout << "Sunlight" << endl : cout << "Moonlight" << endl;
     for (int i = 0; i < x_for_map; i++) {
         for (int n = 0; n < y_for_map; n++) {
             if(array_for_map[i][n]!= " || " && array_for_map[i][n] != " ~~ " && array_for_map[i][n]!= " P ")
@@ -116,14 +117,18 @@ void paused(vector<vampires> vamps, vector<werewolves> lukoi, avatars& i) {
 
 void game_update(string** array, vector<vampires> vamps,vector<werewolves> lukoi, avatars& i, graphics& potion) {
     int  movement;
+    do {
+    bool day = rand() % 2;
     if (i.get_x() == potion.get_x() && i.get_y() == potion.get_y()) 
         i.set_potions(i.get_potions() + 1);
-    
-
-    do {
         this_thread::sleep_for(200ms);
         next_to_me(array, vamps, lukoi);
-        movement = _getch();
+        movement = _getch();    
+        if (day == true && i.get_potions() > 0 && i.get_team() == 'v' && movement == 'h') {
+            for (int i = 0; i < vamps.size(); i++) {
+                vamps[i].health_regain();
+            }
+         }
         if (movement == 'p')
             paused(vamps, lukoi, i);
 
@@ -139,7 +144,7 @@ void game_update(string** array, vector<vampires> vamps,vector<werewolves> lukoi
         }
         
         
-        printing_map(array,vamps,lukoi,i,potion);
+        printing_map(array,vamps,lukoi,i,potion,day);
     } while (vamps.size() > 0 || lukoi.size() > 0);
 }
 
@@ -250,6 +255,13 @@ void move_update(string** array, graphics& i, int move) { // συναρτηση 
 
 string** map_create() {
     int x = 0, y = 0;
+    char team='o';
+    
+    while (team != 'v' && team != 'w') {
+        cout << "What team are you? V for Vampires or W for Werewolves" << endl;
+        cin >> team;
+    }
+
     while (x * y <= 15 || x < 4 || y < 4) {
         cout << "Hello! \n Please enter the dimensions you want! \n x: " << endl;
         cin >> x;
@@ -257,6 +269,7 @@ string** map_create() {
         cin >> y;
         x_for_map = x;
         y_for_map = y;
+
     };
     vector<vampires>the_vampires;
     vector<werewolves> lukoi;
@@ -267,6 +280,8 @@ string** map_create() {
     avatar.set_type(AVATAR);
     avatar.set_x(rand() % x_for_map);
     avatar.set_y(rand() % y_for_map);
+    avatar.set_char(team);
+
     array_for_map[avatar.get_x()][avatar.get_y()] = "  A ";
 
     graphics potion(rand() % x_for_map, rand() % y_for_map, POTION);
@@ -315,7 +330,7 @@ string** map_create() {
     }
 
 
-    printing_map(array_for_map, the_vampires,lukoi, avatar, potion);
+    printing_map(array_for_map, the_vampires,lukoi, avatar, potion, rand() % 2);
 
     game_update(array_for_map,the_vampires,lukoi, avatar, potion);
     
@@ -376,8 +391,6 @@ void will_it_attack(graphics& i, graphics& y, string** array) {
     }
 }
 
-
-
 void healing(graphics& i, graphics& y)
 { // Η συναρτηση αυτη χρησιμοπειται αφου εχει γινει ελεγχος οτι 2 ιδια αντικειμενα βρισκονται σε διπλανες θεσεις
     if (i.gethealth() < 10 && y.gethealth() == 10)
@@ -408,7 +421,4 @@ void healing(graphics& i, graphics& y)
     }
 }
 
-bool weather() {
-    return rand() % 2;
-}
 
