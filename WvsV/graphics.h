@@ -15,7 +15,7 @@
 using namespace std;
 
 typedef enum {
-    WEREWOLF, VAMPIRE, AVATAR, TREE, WATER, EARTH
+    WEREWOLF, VAMPIRE, AVATAR, TREE, WATER, EARTH, POTION
 } GraphicType;
 
 
@@ -122,6 +122,7 @@ public:
         potions = rand() % 2;
         A = 'b';
     }
+    void set_potions(int i) { potions = i; };
     void set_char(char a) { A = a; };
     int input(int i); // the user moves the avatar
 };

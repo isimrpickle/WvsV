@@ -8,22 +8,24 @@ using namespace std;
 
 unsigned short x_for_map, y_for_map;
 string** create_array_for_map() {
-    string** array_for_map = new string * [x_for_map];
+    string** array_for_map = new string * [x_for_map + 1];
     for (int i = 0; i < y_for_map; i++) {
-        array_for_map[i] = new string[y_for_map];
+        array_for_map[i] = new string[y_for_map + 1];
     }
+
     for (int i = 0; i < x_for_map; i++) {
         for (int n = 0; n < y_for_map; n++) {
             array_for_map[i][n] = ":__:";
         }
     }
+
     return array_for_map;
 }
-void printing_map(string** array_for_map, vector<vampires>vamps,vector<werewolves> lykoi, avatars av) {
+void printing_map(string** array_for_map, vector<vampires>vamps,vector<werewolves> lykoi, avatars av, graphics potion) {
     cout << system("cls") << endl;
     for (int i = 0; i < x_for_map; i++) {
         for (int n = 0; n < y_for_map; n++) {
-            if(array_for_map[i][n]!= " || " && array_for_map[i][n] != " ~~ ")
+            if(array_for_map[i][n]!= " || " && array_for_map[i][n] != " ~~ " && array_for_map[i][n]!= " P ")
             array_for_map[i][n] = ":__:";
         }
     }
@@ -95,7 +97,7 @@ void next_to_me(string** array, vector<vampires> vamps,vector<werewolves>lukoi) 
 bool check_if_allowed(unsigned short x, unsigned short y, string** array) {
     if (x > x_for_map || y > y_for_map)
         return false;
-    if (array[x][y] != ":__:")
+    if (array[x][y] != ":__:" && array[x][y]!=" P ")
         return false;
 
     return true;
@@ -112,10 +114,15 @@ void paused(vector<vampires> vamps, vector<werewolves> lukoi, avatars& i) {
   
 };
 
-void game_update(string** array, vector<vampires> vamps,vector<werewolves> lukoi, avatars& i) {
+void game_update(string** array, vector<vampires> vamps,vector<werewolves> lukoi, avatars& i, graphics& potion) {
     int  movement;
+    if (i.get_x() == potion.get_x() && i.get_y() == potion.get_y()) 
+        i.set_potions(i.get_potions() + 1);
+    
+
     do {
         this_thread::sleep_for(200ms);
+
         next_to_me(array, vamps, lukoi);
         movement = _getch();
         if (movement == 'p')
@@ -133,7 +140,7 @@ void game_update(string** array, vector<vampires> vamps,vector<werewolves> lukoi
         }
         
         
-        printing_map(array,vamps,lukoi,i);
+        printing_map(array,vamps,lukoi,i,potion);
     } while (vamps.size() > 0 || lukoi.size() > 0);
 }
 
@@ -265,13 +272,19 @@ string** map_create() {
     avatar.set_type(AVATAR);
     avatar.set_x(rand() % x_for_map);
     avatar.set_y(rand() % y_for_map);
-
     array_for_map[avatar.get_x()][avatar.get_y()] = "  A ";
+
+    graphics potion(rand() % x_for_map, rand() % y_for_map, POTION);
+    fix_position(array_for_map, potion);
+    array_for_map[potion.get_x()][potion.get_y()] = " P ";
+
 
     for (int i = 0; i <= (x_for_map * y_for_map) / 100; i++) {
         graphics tree(rand() % x_for_map, rand() % y_for_map, TREE);
         fix_position(array_for_map, tree);
+
         array_for_map[tree.get_x()][tree.get_y()] = " || ";
+
         graphics water(rand() % x_for_map, rand() % y_for_map, WATER);
         fix_position(array_for_map, water);
 
@@ -307,9 +320,9 @@ string** map_create() {
     }
 
 
-    printing_map(array_for_map, the_vampires,lukoi, avatar);
+    printing_map(array_for_map, the_vampires,lukoi, avatar, potion);
 
-    game_update(array_for_map,the_vampires,lukoi, avatar);
+    game_update(array_for_map,the_vampires,lukoi, avatar, potion);
     
     map_destroy_array(&array_for_map);
 
