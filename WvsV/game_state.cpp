@@ -122,7 +122,6 @@ void game_update(string** array, vector<vampires> vamps,vector<werewolves> lukoi
 
     do {
         this_thread::sleep_for(200ms);
-
         next_to_me(array, vamps, lukoi);
         movement = _getch();
         if (movement == 'p')
@@ -177,11 +176,8 @@ void move_update(string** array, graphics& i, int move) { // συναρτηση 
         //  result = i.move();
         switch (move) {
         case 1:
-            if (check_if_allowed(i.get_x() + 1, i.get_y(), array)) {
-                array[i.get_x()][i.get_y()] = ":__:";
+            if (check_if_allowed(i.get_x() + 1, i.get_y(), array))
                 i.set_x(i.get_x() + 1);
-                array[i.get_x()][i.get_y()] = "  V ";
-            }
             break;
         case 2:
             if (check_if_allowed(i.get_x() - 1, i.get_y(), array)) 
@@ -253,7 +249,6 @@ void move_update(string** array, graphics& i, int move) { // συναρτηση 
 }
 
 string** map_create() {
-    srand((unsigned)time(NULL));
     int x = 0, y = 0;
     while (x * y <= 15 || x < 4 || y < 4) {
         cout << "Hello! \n Please enter the dimensions you want! \n x: " << endl;
@@ -411,5 +406,9 @@ void healing(graphics& i, graphics& y)
             }
         }
     }
+}
+
+bool weather() {
+    return rand() % 2;
 }
 
