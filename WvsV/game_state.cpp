@@ -129,19 +129,22 @@ void game_update(string** array, vector<vampires> vamps,vector<werewolves> lukoi
                 vamps[i].health_regain();
             }
          }
-        if (movement == 'p')
-            paused(vamps, lukoi, i);
+       
 
          if (movement== '\x1B')  //vk number for esc
              break;
+        if (movement == 'p')
+            paused(vamps, lukoi, i);
+        else {
+            move_update(array, i, i.input(movement));
+            for (int i = 0; i < vamps.size(); i++) {
+                move_update(array, vamps[i], vamps[i].move());
+            }
+            for (int i = 0; i < lukoi.size(); i++) {
+                move_update(array, lukoi[i], lukoi[i].move());
+            }
+        }
 
-        move_update(array, i, i.input(movement));
-        for (int i = 0; i < vamps.size(); i++) {
-            move_update(array, vamps[i], vamps[i].move());
-        }
-        for (int i = 0; i < lukoi.size(); i++) {
-            move_update(array, lukoi[i], lukoi[i].move());
-        }
         
         
         printing_map(array,vamps,lukoi,i,potion,day);
@@ -324,11 +327,6 @@ string** map_create() {
         the_vampires.push_back(vampire);
 
     }
-    for (int i = 0; i != the_vampires.size(); i++) {
-        cout << the_vampires[i].gethealth() << " vamp \n";
-        cout << lukoi[i].gethealth() << endl;
-    }
-
 
     printing_map(array_for_map, the_vampires,lukoi, avatar, potion, rand() % 2);
 
