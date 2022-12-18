@@ -65,6 +65,7 @@ public:
     void health_decrease(int);
     int get_potions()const;
     void health_increase(int);
+   
 
 };
 
@@ -84,6 +85,7 @@ public:
     void printstats_w()const;
     void health_decrease(int);
     void health_increase(int);
+
 };
 
 

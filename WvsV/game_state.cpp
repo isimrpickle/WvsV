@@ -65,20 +65,36 @@ void next_to_me(string** array, vector<vampires> vamps,vector<werewolves>lukoi) 
         int p = 1;
         for (auto f = vamps.begin() + p; f != vamps.end(); f++) {
             vampires part_two = *f;
-            if (part_one.get_x() == part_two.get_x() && check_position(part_one.get_y(), part_two.get_y())) 
+            if (part_one.get_x() == part_two.get_x() && check_position(part_one.get_y(), part_two.get_y())) {
                 healing(part_one, part_two);
-            
-            if (part_one.get_y() == part_two.get_y() && check_position(part_one.get_x(), part_two.get_x())) 
+                break;
+            }
+            if (part_one.get_y() == part_two.get_y() && check_position(part_one.get_x(), part_two.get_x())) {
                 healing(part_one, part_two);
-            
+                break;
+            }
         }
         for (auto p = lukoi.begin(); p != lukoi.end(); p++) {
             werewolves lukos = *p;
-            if (lukos.get_x() == part_one.get_x() && check_position(lukos.get_y(), part_one.get_y()))
+            if (lukos.get_x() == part_one.get_x() && check_position(lukos.get_y(), part_one.get_y())) {
                 will_it_attack(lukos, part_one, array);
+                if(lukos.gethealth() == 0) 
+                    lukoi.erase(p);
+                if (part_one.gethealth()) 
+                    vamps.erase(i);
+                break;
+            }
 
-            if (lukos.get_y() == part_one.get_y() && check_position(lukos.get_x(), part_one.get_x()))
+            if (lukos.get_y() == part_one.get_y() && check_position(lukos.get_x(), part_one.get_x())) {
                 will_it_attack(lukos, part_one, array);
+                if (lukos.gethealth() == 0 || part_one.gethealth() == 0) {
+                    if (lukos.gethealth() == 0) 
+                        lukoi.erase(p);
+                    if (part_one.gethealth()) 
+                        vamps.erase(i); 
+                    break;
+                }
+            }
         }
     }
         for (auto i = lukoi.begin(); i != lukoi.end(); i++) {
@@ -86,11 +102,15 @@ void next_to_me(string** array, vector<vampires> vamps,vector<werewolves>lukoi) 
             int p = 1;
             for (auto f = lukoi.begin() + p; f != lukoi.end(); f++) {
                 werewolves part_two = *f;
-                if (part_one.get_x() == part_two.get_x() && check_position(part_one.get_y(), part_two.get_y())) 
+                if (part_one.get_x() == part_two.get_x() && check_position(part_one.get_y(), part_two.get_y())) {
                     healing(part_one, part_two);
+                    break;
+                }
                 
-                if (part_one.get_y() == part_two.get_y() && check_position(part_one.get_x(), part_two.get_x())) 
-                    healing(part_one, part_two);    
+                if (part_one.get_y() == part_two.get_y() && check_position(part_one.get_x(), part_two.get_x())) {
+                    healing(part_one, part_two);
+                    break;
+                }
             }
         }
    

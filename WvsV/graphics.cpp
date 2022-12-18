@@ -74,7 +74,7 @@ int graphics::move() {
 void graphics::health_decrease(int i) {}
 void graphics::health_increase(int i) {}
 
-vampires::vampires() {
+vampires::vampires()  {
     srand((unsigned)time(0));
     this->power = rand() % 4 + 1;
     this->defense = rand() % 3;
@@ -138,6 +138,8 @@ int vampires::move() {
 }
 void vampires::health_decrease(int i) { this->health -= i; }
 void vampires::health_increase(int i) { this->health += i; }
+
+
 
 werewolves::werewolves() {
     srand((unsigned)time(0));

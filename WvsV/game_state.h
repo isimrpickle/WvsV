@@ -8,7 +8,7 @@ void map_destroy_array(string*** array_for_map);
 
 string** create_array_for_map(); // creates an array that consists of the graphics of the game
 
-void printing_map(string** array_for_map, vector<vampires>vamps, vector<werewolves> lykoi, avatars av, graphics); // prints the map of the game 
+void printing_map(string** array_for_map, vector<vampires>vamps, vector<werewolves> lykoi, avatars av, graphics,bool day); // prints the map of the game 
 
 string** map_create(); // creates the map with user input
 
@@ -28,7 +28,7 @@ void run_away(graphics&, string**);
 
 void paused(vector<vampires> vamps, vector<werewolves> lukoi, avatars& i);
 
-bool weather();
+
 
 
 
