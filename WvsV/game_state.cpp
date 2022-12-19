@@ -23,7 +23,14 @@ string** create_array_for_map() {
 }
 void printing_map(string** array_for_map, vector<vampires>vamps,vector<werewolves> lykoi, avatars av, graphics potion, bool day) {
     cout << system("cls") << endl;
-    day == 1 ? cout << "Sunlight" << endl : cout << "Moonlight" << endl;
+    if (day) {
+        system("color 6"); //yellow
+        cout << "Sunlight" << endl; 
+    }
+    else {
+        system("color 8"); //gray
+         cout << "Moonlight" << endl;
+    }
     for (int i = 0; i < x_for_map; i++) {
         for (int n = 0; n < y_for_map; n++) {
             if(array_for_map[i][n]!= " || " && array_for_map[i][n] != " ~~ " && array_for_map[i][n]!= " P ")
@@ -36,6 +43,7 @@ void printing_map(string** array_for_map, vector<vampires>vamps,vector<werewolve
     }
 
     for (int i = 0; i < lykoi.size(); i++) {
+       
         array_for_map[lykoi[i].get_x()][lykoi[i].get_y()] = " W ";
     }
 
@@ -127,12 +135,22 @@ bool check_if_allowed(unsigned short x, unsigned short y, string** array) {
 void paused(vector<vampires> vamps, vector<werewolves> lukoi, avatars& i) {
     int exit = 0;
     cout <<" The game is paused \nNumber of vampires : " << vamps.size() << "\nNumber of werewolves : " << lukoi.size();
+    for (int i = 0; i < vamps.size(); i++) {
+        vampires y;
+        werewolves z;
+        vamps[i] = y;
+        lukoi[i] = z;
+        cout << endl<<"the health of vampire " <<i+1    << "is: "<< y.gethealth() << endl;
+        cout << "the health of werewolf" << i + 1 << "is: " << z.gethealth() << endl;
+
+    }
+    cout << endl << "the key 'h' is for healing your team and the key'esc' is for ending the game" << endl;
+    cout << "press p again for exiting the pause menu" << endl;
     while (exit != 1) {
         exit = _getch();
         if (exit == 'p') 
             exit = 1;       
     }
-  
 };
 
 void game_update(string** array, vector<vampires> vamps,vector<werewolves> lukoi, avatars& i, graphics& potion) {
@@ -147,9 +165,15 @@ void game_update(string** array, vector<vampires> vamps,vector<werewolves> lukoi
         if (day == true && i.get_potions() > 0 && i.get_team() == 'v' && movement == 'h') {
             for (int i = 0; i < vamps.size(); i++) {
                 vamps[i].health_regain();
+                cout << '\a';
             }
          }
-       
+        if (day != true && i.get_potions() > 0 && i.get_team() == 'w' && movement == 'h') {
+            for (int i = 0; i < vamps.size(); i++) {
+                vamps[i].health_regain();
+                cout << '\a';
+            }
+        }
 
          if (movement== '\x1B')  //vk number for esc
              break;
@@ -390,6 +414,7 @@ void will_it_attack(graphics& i, graphics& y, string** array) {
             if (i.getpower() > y.getdefense()) // Ελεγχουμε αν ο ατακερ εχει μεγαλυτερη δυναμη
                 y.health_decrease(i.getpower()); //μειωνουμε τη ζωη του αμυνομενου αναλογα το power του επιτεθομενου
             cout << y.gethealth() << endl;
+            cout << '\a';  //bell sound
         default:
             break;
         }
@@ -403,6 +428,7 @@ void will_it_attack(graphics& i, graphics& y, string** array) {
             if (y.getpower() > i.getdefense())
                 i.health_decrease(y.getpower());
             cout << i.gethealth() << endl;
+            cout << '\a'; //bell sound
         default:
             break;
         }
@@ -419,6 +445,7 @@ void healing(graphics& i, graphics& y)
             {
             case 1:
                 i.health_increase(1);
+                cout << '\a';//bell sound
             default:
                 break;
             }
@@ -432,6 +459,7 @@ void healing(graphics& i, graphics& y)
             {
             case 1:
                 y.health_increase(1);
+                cout << '\a'; //bell sound
             default:
                 break;
             }
