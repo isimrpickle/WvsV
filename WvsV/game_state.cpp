@@ -166,7 +166,6 @@ void game_update(string** array, vector<vampires> vamps,vector<werewolves> lukoi
     bool day = rand() % 2;
     if (i.get_x() == potion.get_x() && i.get_y() == potion.get_y()) 
         i.set_potions(i.get_potions() + 1);
-        this_thread::sleep_for(200ms);
         next_to_me(array, vamps, lukoi);
         movement = _getch();    
         if (day == true && i.get_potions() > 0 && i.get_team() == 'v' && movement == 'h') {
