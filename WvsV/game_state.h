@@ -20,7 +20,7 @@ void will_it_attack(graphics&, graphics&, string**);
 
 void next_to_me(string** array, vector<vampires> vamps, vector<werewolves>lukoi); // checks and finds whether a character has someonenext to him 
 
-bool check_if_allowed(unsigned short  x, unsigned short y, string** array);// if a character has an enemy next to him there is a posibility of attack
+bool check_if_allowed(unsigned short  x, unsigned short y, string** array, graphics);// if a character has an enemy next to him there is a posibility of attack
 
 void healing(graphics&, graphics&);// if a character has an ally then there is a posibilty of healing
 

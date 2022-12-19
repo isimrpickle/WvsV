@@ -68,7 +68,7 @@ bool check_position(int one, int two) {
 };
 
 void next_to_me(string** array, vector<vampires> vamps,vector<werewolves>lukoi) {
-    for (auto i = vamps.begin(); i != vamps.end(); i++) {
+    for (auto i = vamps.begin(); i != vamps.end()-1; i++) {
         vampires part_one = *i;
         int p = 1;
         for (auto f = vamps.begin() + p; f != vamps.end(); f++) {
@@ -123,11 +123,18 @@ void next_to_me(string** array, vector<vampires> vamps,vector<werewolves>lukoi) 
         }
    
 };
-bool check_if_allowed(unsigned short x, unsigned short y, string** array) {
-    if (x > x_for_map || y > y_for_map)
+bool check_if_allowed(unsigned short x, unsigned short y, string** array, graphics i) {
+    if (x >= x_for_map || y >= y_for_map)
         return false;
-    if (array[x][y] != ":__:" && array[x][y]!=" P ")
-        return false;
+    if (i.get_type() == AVATAR) {
+        if (array[x][y] != ":__:" && array[x][y] != " P ")
+            return false;
+    }
+    else {
+        if (array[x][y] != ":__:")
+            return false;
+    }
+    
 
     return true;
 };
@@ -201,22 +208,22 @@ void move_update(string** array, graphics& i, int move) { // συναρτηση 
         // result = i.move();
         switch (move) {
         case 1:
-            if (check_if_allowed(i.get_x() + 1, i.get_y(), array)) 
+            if (check_if_allowed(i.get_x() + 1, i.get_y(), array,i)) 
                 i.set_x(i.get_x() + 1);
 
             break;
         case 2:
-            if (check_if_allowed(i.get_x() - 1, i.get_y(), array)) 
+            if (check_if_allowed(i.get_x() - 1, i.get_y(), array,i)) 
                 i.set_x(i.get_x() - 1);
             
             break;
         case 3:
-            if (check_if_allowed(i.get_x(), i.get_y() + 1, array)) 
+            if (check_if_allowed(i.get_x(), i.get_y() + 1, array,i)) 
                 i.set_y(i.get_y() + 1);
             
             break;
         case 4:
-            if (check_if_allowed(i.get_x(), i.get_y() - 1, array)) 
+            if (check_if_allowed(i.get_x(), i.get_y() - 1, array,i)) 
                 i.set_y(i.get_y() - 1);
 
             break;
@@ -228,47 +235,47 @@ void move_update(string** array, graphics& i, int move) { // συναρτηση 
         //  result = i.move();
         switch (move) {
         case 1:
-            if (check_if_allowed(i.get_x() + 1, i.get_y(), array))
+            if (check_if_allowed(i.get_x() + 1, i.get_y(), array,i))
                 i.set_x(i.get_x() + 1);
             break;
         case 2:
-            if (check_if_allowed(i.get_x() - 1, i.get_y(), array)) 
+            if (check_if_allowed(i.get_x() - 1, i.get_y(), array,i)) 
                 i.set_x(i.get_x() - 1);
             
 
             break;
         case 3:
-            if (check_if_allowed(i.get_x(), i.get_y() + 1, array)) 
+            if (check_if_allowed(i.get_x(), i.get_y() + 1, array,i)) 
                 i.set_y(i.get_y() + 1);
             
 
             break;
         case 4:
-            if (check_if_allowed(i.get_x(), i.get_y() - 1, array))
+            if (check_if_allowed(i.get_x(), i.get_y() - 1, array,i))
                 i.set_y(i.get_y() - 1);
             break;
         case 5:
-            if (check_if_allowed(i.get_x() + 1, i.get_y() + 1, array)) {
+            if (check_if_allowed(i.get_x() + 1, i.get_y() + 1, array,i)) {
                 i.set_x(i.get_x() + 1);
                 i.set_y(i.get_y() + 1);
             }
 
             break;
         case 6:
-            if (check_if_allowed(i.get_x() + 1, i.get_y() - 1, array)) {
+            if (check_if_allowed(i.get_x() + 1, i.get_y() - 1, array,i)) {
                  i.set_x(i.get_x() + 1);
                 i.set_y(i.get_y() - 1);
             }
                
             break;
         case 7:
-            if (check_if_allowed(i.get_x() - 1, i.get_y() + 1, array)) {
+            if (check_if_allowed(i.get_x() - 1, i.get_y() + 1, array,i)) {
                 i.set_x(i.get_x() - 1);
                 i.set_y(i.get_y() + 1);
             }
             break;
         case 8:
-            if (check_if_allowed(i.get_x() - 1, i.get_y() + 1, array)) {
+            if (check_if_allowed(i.get_x() - 1, i.get_y() + 1, array,i)) {
                 i.set_x(i.get_x() - 1);
                 i.set_y(i.get_y() + 1);
             }
@@ -279,20 +286,20 @@ void move_update(string** array, graphics& i, int move) { // συναρτηση 
     else {
         switch (move) {
         case 1:
-            if (check_if_allowed(i.get_x() + 1, i.get_y(), array)) 
+            if (check_if_allowed(i.get_x() + 1, i.get_y(), array,i)) 
                 i.set_x(i.get_x() + 1);
            
             break;
         case 2:
-            if (check_if_allowed(i.get_x() - 1, i.get_y(), array)) 
+            if (check_if_allowed(i.get_x() - 1, i.get_y(), array,i)) 
                 i.set_x(i.get_x() - 1);
             break;
         case 3:
-            if (check_if_allowed(i.get_x(), i.get_y() + 1, array))
+            if (check_if_allowed(i.get_x(), i.get_y() + 1, array,i))
                 i.set_y(i.get_y() + 1);
             break;
         case 4:
-            if (check_if_allowed(i.get_x(), i.get_y() - 1, array)) 
+            if (check_if_allowed(i.get_x(), i.get_y() - 1, array,i)) 
                 i.set_y(i.get_y() - 1);
         default:
             break;
