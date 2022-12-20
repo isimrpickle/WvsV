@@ -42,11 +42,11 @@ void move_update(string** array, graphics& i, int move);
 
 
  // creates the map with user input
-string** map_create();
+void map_create();
 
 
 // destroys the dynamic allocated 2D array use to print the map
-void map_destroy_array(string*** array_for_map); 
+//void map_destroy_array(string*** array_for_map); 
 
 
 // function that is used if a defender run away before an attack

@@ -324,7 +324,7 @@ void move_update(string** array, graphics& i, int move) { // συναρτηση 
     }
 }
 
-string** map_create() {
+void map_create() {
     int x = 0, y = 0;
     char team='o';
     
@@ -400,12 +400,8 @@ string** map_create() {
 
     game_update(array_for_map,the_vampires,lukoi, avatar, potion);
     
-    map_destroy_array(&array_for_map);
+     delete[] array_for_map;
 
-    return array_for_map;
-};
-void map_destroy_array(string*** array_for_map) {
-    delete[] array_for_map;
 };
 
 void run_away(graphics& graphic, string** array) {
