@@ -68,6 +68,7 @@ bool check_position(int one, int two) {
 };
 
 void next_to_me(string** array, vector<vampires> vamps,vector<werewolves>lukoi) {
+    bool healed = 0; //ελεγχος ωστε αν εγινε καποιο action να σταματει η αναζητηση
     for (auto i = vamps.begin(); i != vamps.end()-1; i++) {
         vampires part_one = *i;
         int p = 1;
@@ -75,48 +76,59 @@ void next_to_me(string** array, vector<vampires> vamps,vector<werewolves>lukoi) 
             vampires part_two = *f;
             if (part_one.get_x() == part_two.get_x() && check_position(part_one.get_y(), part_two.get_y())) {
                 healing(part_one, part_two);
+                healed = 1;
                 break;
             }
             if (part_one.get_y() == part_two.get_y() && check_position(part_one.get_x(), part_two.get_x())) {
                 healing(part_one, part_two);
+                healed = 1;
                 break;
             }
         }
+        if (healed)
+            break;
         for (auto p = lukoi.begin(); p != lukoi.end(); p++) {
             werewolves lukos = *p;
             if (lukos.get_x() == part_one.get_x() && check_position(lukos.get_y(), part_one.get_y())) {
                 will_it_attack(lukos, part_one, array);
                 if(lukos.gethealth() == 0) 
                     lukoi.erase(p);
-                if (part_one.gethealth()) 
+                if (part_one.gethealth()==0) 
                     vamps.erase(i);
-                break;
+                healed = 1;
+                cout << '\a';
             }
-
+            if (healed)
+                break;
             if (lukos.get_y() == part_one.get_y() && check_position(lukos.get_x(), part_one.get_x())) {
                 will_it_attack(lukos, part_one, array);
                 if (lukos.gethealth() == 0 || part_one.gethealth() == 0) {
                     if (lukos.gethealth() == 0) 
                         lukoi.erase(p);
-                    if (part_one.gethealth()) 
+                    if (part_one.gethealth()==0) 
                         vamps.erase(i); 
-                    break;
+                    healed = 1;
+                     cout << '\a';
                 }
             }
         }
     }
         for (auto i = lukoi.begin(); i != lukoi.end(); i++) {
+            if (healed)
+                break;
             werewolves part_one = *i;
             int p = 1;
             for (auto f = lukoi.begin() + p; f != lukoi.end(); f++) {
                 werewolves part_two = *f;
                 if (part_one.get_x() == part_two.get_x() && check_position(part_one.get_y(), part_two.get_y())) {
                     healing(part_one, part_two);
+                    healed = 1;
                     break;
                 }
                 
                 if (part_one.get_y() == part_two.get_y() && check_position(part_one.get_x(), part_two.get_x())) {
                     healing(part_one, part_two);
+                    healed=1;
                     break;
                 }
             }
@@ -129,10 +141,16 @@ bool check_if_allowed(unsigned short x, unsigned short y, string** array, graphi
     if (i.get_type() == AVATAR) {
         if (array[x][y] != ":__:" && array[x][y] != " P ")
             return false;
+        array[x][y] = "A"; //Εισαγωγη Α στη νεα του θέση ωστε να ανανεωθει η συνθηκη του if και να μη δημιουργειται προβλημα πολλων object στην ιδια θεση
     }
     else {
-        if (array[x][y] != ":__:")
+        if (array[x][y] != ":__:"|| array[x][y]=="A")
             return false;
+        if (i.get_type() == VAMPIRE) {
+            array[x][y] = "V";   //Ίδια λογικη με 144
+        }
+        else
+            array[x][y] = "W";// ιδια λογικη με 144
     }
     
 
