@@ -462,14 +462,11 @@ void will_it_attack(graphics* i, graphics* y, string** array) {
     }
 }
 
-void healing(graphics* i, graphics* y)
-{ // Η συναρτηση αυτη χρησιμοπειται αφου εχει γινει ελεγχος οτι 2 ιδια αντικειμενα βρισκονται σε διπλανες θεσεις
-    if (i->gethealth() < 10 && y->gethealth() == 10)
-    {
-        if (y->get_potions() > 0)
-        {
-            switch (rand() % 2)
-            {
+void healing(graphics* i, graphics* y) { 
+    //checks if a full hp ally has a potion and can heal someone
+    if (i->gethealth() < 10 && y->gethealth() == 10) {
+        if (y->get_potions() > 0) {
+            switch (rand() % 2) {
             case 1:
                 i->health_increase(1);
                 cout << '\a';//bell sound
@@ -478,12 +475,9 @@ void healing(graphics* i, graphics* y)
             }
         }
     }
-    if (y->gethealth() < 10 && i->gethealth() == 10)
-    {
-        if (i->get_potions() > 0)
-        {
-            switch (rand() % 2)
-            {
+    if (y->gethealth() < 10 && i->gethealth() == 10) {
+        if (i->get_potions() > 0) {
+            switch (rand() % 2) {
             case 1:
                 y->health_increase(1);
                 cout << '\a'; //bell sound
