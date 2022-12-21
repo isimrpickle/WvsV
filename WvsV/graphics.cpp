@@ -35,9 +35,9 @@ unsigned short int graphics::get_y() {
 unsigned short int graphics::get_x() {
     return x; 
 };
-GraphicType graphics::get_id(graphics example) { 
+/*GraphicType graphics::get_id(graphics example) { 
     return example.type; 
-};
+};*/
 int graphics::getpower()const { 
     return NULL; 
 }
@@ -102,9 +102,9 @@ int vampires::gethealth()const {
 int vampires::get_potions()const { 
     return this->potions; 
 }
-void vampires::printstats() const {
-    cout << "the power, the defense and the health are:" << getpower() << "," << getdefense() << "," << gethealth() << endl;
-}
+//void vampires::printstats() const {
+   // cout << "the power, the defense and the health are:" << getpower() << "," << getdefense() << "," << gethealth() << endl;
+//}
 
 int vampires::move() {
     switch (1 + rand() % 8) {  // οι περιπτωσεις να μετακινηθει προς οποιαδήποτε κατευθυνση είναι ισοπίθανη
@@ -177,9 +177,9 @@ void werewolves::health_increase(int i) {
     this->health += i; 
 }
 
-void werewolves::printstats_w()const {
-    cout << "the power, the defense and the health are:" << getpower() << "," << getdefense() << "," << gethealth() << endl;
-}
+//void werewolves::printstats_w()const {
+  //  cout << "the power, the defense and the health are:" << getpower() << "," << getdefense() << "," << gethealth() << endl;
+//}
 
 avatars::avatars() {
     potions = rand() % 2;
