@@ -35,18 +35,18 @@ void printing_map(string** array_for_map, vector<vampires>vamps,vector<werewolve
     }
     for (int i = 0; i < x_for_map; i++) {
         for (int n = 0; n < y_for_map; n++) {
-            if(array_for_map[i][n]!= " || " && array_for_map[i][n] != " ~~ " && array_for_map[i][n]!= " P ")
+            if(array_for_map[i][n]!= " || " && array_for_map[i][n] != " ~~ " && array_for_map[i][n]!= "  P ")
             array_for_map[i][n] = ":__:";
         }
     }
-    array_for_map[av.get_x()][av.get_y()] = " A ";
+    array_for_map[av.get_x()][av.get_y()] = "  A ";
     for (int i = 0; i < vamps.size(); i++) {
-        array_for_map[vamps[i].get_x()][vamps[i].get_y()] = " V ";
+        array_for_map[vamps[i].get_x()][vamps[i].get_y()] = "  V ";
     }
 
     for (int i = 0; i < lykoi.size(); i++) {
        
-        array_for_map[lykoi[i].get_x()][lykoi[i].get_y()] = " W ";
+        array_for_map[lykoi[i].get_x()][lykoi[i].get_y()] = "  W ";
     }
 
     for (int i = 0; i < x_for_map; i++) {
@@ -364,7 +364,7 @@ void map_create() {
 
     graphics potion(rand() % x_for_map, rand() % y_for_map, POTION);
     fix_position(array_for_map, potion);
-    array_for_map[potion.get_x()][potion.get_y()] = " P ";
+    array_for_map[potion.get_x()][potion.get_y()] = "  P ";
 
 
     for (int i = 0; i <= (x_for_map * y_for_map) / 100; i++) {
