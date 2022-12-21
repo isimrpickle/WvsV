@@ -165,12 +165,9 @@ void paused(vector<vampires> vamps, vector<werewolves> lukoi, avatars& i) {
     int exit = 0;
     cout <<" The game is paused \nNumber of vampires : " << vamps.size() << "\nNumber of werewolves : " << lukoi.size();
     for (int i = 0; i < vamps.size(); i++) {
-        vampires y;
-        werewolves z;
-        vamps[i] = y;
-        lukoi[i] = z;
-        cout << endl<<"the health of vampire " <<i+1    << "is: "<< y.gethealth() << endl;
-        cout << "the health of werewolf" << i + 1 << "is: " << z.gethealth() << endl;
+        
+        cout << endl<<"the health of vampire " <<i+1    << "is: "<< vamps[i].gethealth() << endl;
+        cout << "the health of werewolf" << i + 1 << "is: " << lukoi[i].gethealth() << endl;
 
     }
     cout << endl << "the key 'h' is for healing your team and the key'esc' is for ending the game" << endl;
@@ -334,7 +331,14 @@ void map_create() {
     
     while (team != 'v' && team != 'w') {
         cout << "What team are you? V for Vampires or W for Werewolves" << endl;
-        cin >> team;
+        try {
+            cin >> team;
+            if(team!='v'&&team!='w')
+                throw   runtime_error("Typing is hard...");  //Βασίστηκα εδώ: https://stackoverflow.com/questions/27179011/c-exception-throw-a-string
+        }
+         catch (const std::exception& e) {
+            cout<<"ERROR TYPE: "<< e.what()<< "\n";
+        }
     }
 
     while (x * y <= 15 || x < 4 || y < 4) {
