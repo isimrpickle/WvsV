@@ -7,10 +7,11 @@
 using namespace std;
 
 unsigned short x_for_map, y_for_map;
+
 string** create_array_for_map() {
-    string** array_for_map = new string * [x_for_map + 1];
+    string** array_for_map = new string * [x_for_map];
     for (int i = 0; i < y_for_map; i++) {
-        array_for_map[i] = new string[y_for_map + 1];
+        array_for_map[i] = new string[y_for_map];
     }
 
     for (int i = 0; i < x_for_map; i++) {
@@ -21,6 +22,7 @@ string** create_array_for_map() {
 
     return array_for_map;
 }
+
 void printing_map(string** array_for_map, vector<vampires>vamps,vector<werewolves> lykoi, avatars av, graphics potion, bool day) {
     cout << system("cls") << endl;
     if (day) {
@@ -61,6 +63,7 @@ void fix_position(string** array, graphics& graphic) {
         graphic.set_y(rand() % y_for_map);
     }
 };
+
 bool check_position(int one, int two) {
     if (one == two++ || one == two--)
         return true;
@@ -135,6 +138,7 @@ void next_to_me(string** array, vector<vampires> vamps,vector<werewolves>lukoi) 
         }
    
 };
+
 bool check_if_allowed(unsigned short x, unsigned short y, string** array, graphics i) {
     if (x >= x_for_map || y >= y_for_map)
         return false;
@@ -334,7 +338,7 @@ void map_create() {
     }
 
     while (x * y <= 15 || x < 4 || y < 4) {
-        cout << "Hello! \n Please enter the dimensions you want! \n x: " << endl;
+        cout << "Please enter the dimensions you want! \n x: " << endl;
         cin >> x;
         cout << " y: " << endl;
         cin >> y;

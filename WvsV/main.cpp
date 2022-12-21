@@ -4,5 +4,5 @@
 
 int main() {
     srand((unsigned)time(0));
-    map_create();
+    map_create();  // function that creates and plays the game in a do{}while() loop
 }
