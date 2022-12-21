@@ -22,7 +22,7 @@ bool check_position(int one, int two);
 
 
 // checks and finds whether a character has someonenext to him 
-void next_to_me(string** array, vector<vampires> vamps, vector<werewolves>lukoi); 
+void next_to_me(string** array, vector<vampires>& vamps, vector<werewolves>&lukoi); 
 
 
 // if a character has an enemy next to him there is a posibility of attack
@@ -50,11 +50,11 @@ void run_away(graphics& graphic, string** array);
 
 
  // function that determines if and which character will attack
-void will_it_attack(graphics&, graphics&, string**);
+void will_it_attack(graphics*, graphics*, string**);
 
 
 // if a character has an ally then there is a posibilty of healing
-void healing(graphics&, graphics&);
+void healing(graphics*, graphics*);
 
 
 

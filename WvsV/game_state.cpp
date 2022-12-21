@@ -70,53 +70,50 @@ bool check_position(int one, int two) {
     return false;
 };
 
-void next_to_me(string** array, vector<vampires> vamps,vector<werewolves>lukoi) {
+void next_to_me(string** array, vector<vampires>& vamps,vector<werewolves>& lukoi) {
     bool healed = 0; //ελεγχος ωστε αν εγινε καποιο action να σταματει η αναζητηση
-    for (auto i = vamps.begin(); i != vamps.end()-1; i++) {
-        vampires part_one = *i;
+    for (int i = 0 ; i != vamps.size()-1; i++) {
         int p = 1;
-        for (auto f = vamps.begin() + p; f != vamps.end(); f++) {
-            vampires part_two = *f;
-            if (part_one.get_x() == part_two.get_x() && check_position(part_one.get_y(), part_two.get_y())) {
-                healing(part_one, part_two);
+        for (int f = 0 + p; f != vamps.size(); f++) {
+            if (vamps[i].get_x() == vamps[f].get_x() && check_position(vamps[i].get_y(), vamps[f].get_y())) {
+                healing(&vamps[i], &vamps[f]);
                 healed = 1;
                 break;
             }
-            if (part_one.get_y() == part_two.get_y() && check_position(part_one.get_x(), part_two.get_x())) {
-                healing(part_one, part_two);
+            if (vamps[i].get_y() == vamps[f].get_y() && check_position(vamps[i].get_x(), vamps[f].get_x())) {
+                healing(&vamps[i], &vamps[f]);
                 healed = 1;
                 break;
             }
         }
         if (healed)
             break;
-        for (auto p = lukoi.begin(); p != lukoi.end(); p++) {
-            werewolves lukos = *p;
-            if (lukos.get_x() == part_one.get_x() && check_position(lukos.get_y(), part_one.get_y())) {
-                will_it_attack(lukos, part_one, array);
-                if(lukos.gethealth() == 0) 
-                    lukoi.erase(p);
-                if (part_one.gethealth()==0) 
-                    vamps.erase(i);
+        for (int p = 0; p != lukoi.size(); p++) {
+            if (lukoi[p].get_x() == vamps[i].get_x() && check_position(lukoi[p].get_y(), vamps[i].get_y())) {
+                will_it_attack(&lukoi[p], &vamps[i], array);
+                if(lukoi[p].gethealth() == 0)
+                //    lukoi.erase(p);
+                if (vamps[i].gethealth()==0)
+                //    vamps.erase(i);
                 healed = 1;
                 cout << '\a';
             }
             if (healed)
                 break;
-            if (lukos.get_y() == part_one.get_y() && check_position(lukos.get_x(), part_one.get_x())) {
-                will_it_attack(lukos, part_one, array);
-                if (lukos.gethealth() == 0 || part_one.gethealth() == 0) {
-                    if (lukos.gethealth() == 0) 
-                        lukoi.erase(p);
-                    if (part_one.gethealth()==0) 
-                        vamps.erase(i); 
+            if (lukoi[p].get_y() == vamps[i].get_y() && check_position(lukoi[p].get_x(), vamps[i].get_x())) {
+                will_it_attack(&lukoi[p], &vamps[i], array);
+                if (lukoi[p].gethealth() == 0 || vamps[i].gethealth() == 0) {
+                    if (lukoi[p].gethealth() == 0)
+                       // lukoi.erase(p);
+                    if (vamps[i].gethealth()==0)
+                     //   vamps->erase(i); 
                     healed = 1;
                      cout << '\a';
                 }
             }
         }
     }
-        for (auto i = lukoi.begin(); i != lukoi.end(); i++) {
+      /*  for (auto i = lukoi.begin(); i != lukoi.end(); i++) {
             if (healed)
                 break;
             werewolves part_one = *i;
@@ -136,7 +133,7 @@ void next_to_me(string** array, vector<vampires> vamps,vector<werewolves>lukoi) 
                 }
             }
         }
-   
+   */
 };
 
 bool check_if_allowed(unsigned short x, unsigned short y, string** array, graphics i) {
@@ -165,12 +162,8 @@ void paused(vector<vampires> vamps, vector<werewolves> lukoi, avatars& i) {
     int exit = 0;
     cout <<" The game is paused \nNumber of vampires : " << vamps.size() << "\nNumber of werewolves : " << lukoi.size();
     for (int i = 0; i < vamps.size(); i++) {
-        vampires y;
-        werewolves z;
-        vamps[i] = y;
-        lukoi[i] = z;
-        cout << endl<<"the health of vampire " <<i+1    << "is: "<< y.gethealth() << endl;
-        cout << "the health of werewolf" << i + 1 << "is: " << z.gethealth() << endl;
+        cout << endl<<"the health of vampire " <<i+1    << "is: "<< vamps[i].gethealth() << endl;
+        cout << "the health of werewolf" << i + 1 << "is: " << lukoi[i].gethealth() << endl;
 
     }
     cout << endl << "the key 'h' is for healing your team and the key'esc' is for ending the game" << endl;
@@ -217,7 +210,7 @@ void game_update(string** array, vector<vampires> vamps,vector<werewolves> lukoi
             }
         }
 
-        
+     
         
         printing_map(array,vamps,lukoi,i,potion,day);
     } while (vamps.size() > 0 || lukoi.size() > 0);
@@ -428,30 +421,30 @@ void run_away(graphics& graphic, string** array) {
     }
 }
 
-void will_it_attack(graphics& i, graphics& y, string** array) {
-    if (i.getpower() > y.getpower()) { // βλεπουμε ποιος κανει το attack
+void will_it_attack(graphics* i, graphics* y, string** array) {
+    if (i->getpower() > y->getpower()) { // βλεπουμε ποιος κανει το attack
         switch (rand() % 2) {
         case 0:
-            run_away(y, array); // επιτυγχανεται η αποφυγη με συναρτηση move. Θα διορθωθει και αλλο!!
+            run_away(*y, array); // επιτυγχανεται η αποφυγη με συναρτηση move. Θα διορθωθει και αλλο!!
             break;
         case 1:
-            if (i.getpower() > y.getdefense()) // Ελεγχουμε αν ο ατακερ εχει μεγαλυτερη δυναμη
-                y.health_decrease(i.getpower()); //μειωνουμε τη ζωη του αμυνομενου αναλογα το power του επιτεθομενου
-            cout << y.gethealth() << endl;
+            if (i->getpower() > y->getdefense()) // Ελεγχουμε αν ο ατακερ εχει μεγαλυτερη δυναμη
+                y->health_decrease(i->getpower()); //μειωνουμε τη ζωη του αμυνομενου αναλογα το power του επιτεθομενου
+            cout << y->gethealth() << endl;
             cout << '\a';  //bell sound
         default:
             break;
         }
     }
-    if (y.getpower() > i.getpower()) {
+    if (y->getpower() > i->getpower()) {
         switch (rand() % 2) {
         case 0:
-            run_away(i, array); // επιτυγχανεται η αποφυγη με συναρτηση move. Θα διορθωθει και αλλο!!
+            run_away(*i, array); // επιτυγχανεται η αποφυγη με συναρτηση move. Θα διορθωθει και αλλο!!
             break;
         case 1:
-            if (y.getpower() > i.getdefense())
-                i.health_decrease(y.getpower());
-            cout << i.gethealth() << endl;
+            if (y->getpower() > i->getdefense())
+                i->health_decrease(y->getpower());
+            cout << i->gethealth() << endl;
             cout << '\a'; //bell sound
         default:
             break;
@@ -459,30 +452,30 @@ void will_it_attack(graphics& i, graphics& y, string** array) {
     }
 }
 
-void healing(graphics& i, graphics& y)
+void healing(graphics* i, graphics* y)
 { // Η συναρτηση αυτη χρησιμοπειται αφου εχει γινει ελεγχος οτι 2 ιδια αντικειμενα βρισκονται σε διπλανες θεσεις
-    if (i.gethealth() < 10 && y.gethealth() == 10)
+    if (i->gethealth() < 10 && y->gethealth() == 10)
     {
-        if (y.get_potions() > 0)
+        if (y->get_potions() > 0)
         {
             switch (rand() % 2)
             {
             case 1:
-                i.health_increase(1);
+                i->health_increase(1);
                 cout << '\a';//bell sound
             default:
                 break;
             }
         }
     }
-    if (y.gethealth() < 10 && i.gethealth() == 10)
+    if (y->gethealth() < 10 && i->gethealth() == 10)
     {
-        if (i.get_potions() > 0)
+        if (i->get_potions() > 0)
         {
             switch (rand() % 2)
             {
             case 1:
-                y.health_increase(1);
+                y->health_increase(1);
                 cout << '\a'; //bell sound
             default:
                 break;
