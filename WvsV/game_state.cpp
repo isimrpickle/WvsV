@@ -336,8 +336,8 @@ void map_create() {
             if(team!='v'&&team!='w')
                 throw   runtime_error("Typing is hard...");  //Βασίστηκα εδώ: https://stackoverflow.com/questions/27179011/c-exception-throw-a-string
         }
-         catch (const std::exception& e) {
-            cout<<"ERROR TYPE: "<< e.what()<< "\n";
+         catch (const exception& x) {
+            cout<<"ERROR TYPE: "<< x.what()<< "\n";
         }
     }
 
