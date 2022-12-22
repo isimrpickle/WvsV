@@ -84,7 +84,7 @@ void next_to_me(string** array, vector<vampires>& vamps, vector<werewolves>& luk
         for (int f = p; f != vamps.size(); f++) {
             if (vamps[i].get_x() == vamps[f].get_x() && check_position(vamps[i].get_y(), vamps[f].get_y())) {
                 healing(&vamps[i], &vamps[f]);
-                if (healing) {     // if an entity uses a potion,anaction has been taken so break the loop
+                if (healing) {     // if healing is true, an action has been taken so we break the loop
                     healed = 1;
                     break;
                 }
@@ -92,7 +92,7 @@ void next_to_me(string** array, vector<vampires>& vamps, vector<werewolves>& luk
             if (vamps[i].get_y() == vamps[f].get_y() && check_position(vamps[i].get_x(), vamps[f].get_x())) {
                 healing(&vamps[i], &vamps[f]);
                 if (healing) {
-                    healed = 1;
+                    healed = 1;  // if healing is true, an action has been taken so we break the loop
                     break;
                 }
                 
@@ -104,7 +104,7 @@ void next_to_me(string** array, vector<vampires>& vamps, vector<werewolves>& luk
             if (lukoi[p].get_x() == vamps[i].get_x() && check_position(lukoi[p].get_y(), vamps[i].get_y())) {
                 will_it_attack(&lukoi[p], &vamps[i], array);
 
-                if (lukoi[p].gethealth() == 0) { // if an entity dies erase it fromthe vector and decrease the variable used to check the size  
+                if (lukoi[p].gethealth() == 0) { // if an entity dies erase it from the vector and decrease the variable used to check the size  
                    // lukoi.erase(lukoi.begin() + p);
                     werewolves_size--;
                 }
@@ -142,14 +142,14 @@ void next_to_me(string** array, vector<vampires>& vamps, vector<werewolves>& luk
             if (lukoi[i].get_x() == lukoi[f].get_x() && check_position(lukoi[i].get_y(), lukoi[f].get_y())) {
                 healing(&lukoi[i], &lukoi[f]);
                 if (healing) {
-                    healed = 1;
+                    healed = 1;   // if healing is true, an action has been taken so we break the loop
                     break;
                 }
             }
             if (lukoi[i].get_y() == lukoi[f].get_y() && check_position(lukoi[i].get_x(), lukoi[f].get_x())) {
                 healing(&lukoi[i], &lukoi[f]);
-                if (healing) {
-                    healed = 1;
+                if (healing) {  
+                    healed = 1;   // if healing is true, an action has been taken so we break the loop
                     break;
                 }
             }
