@@ -238,11 +238,9 @@ void game_update(string** array, vector<vampires> vamps,vector<werewolves> lukoi
             for (int i = 0; i < lukoi.size(); i++) {
                 move_update(array, lukoi[i], lukoi[i].move());
             }
-        }
+        }        
+    printing_map(array,vamps,lukoi,i,potion,day);
 
-     
-        
-        printing_map(array,vamps,lukoi,i,potion,day);
     } while (for_vampires > 0 || for_werewolves > 0);
 }
 
@@ -492,31 +490,27 @@ void will_it_attack(graphics* i, graphics* y, string** array) {
 
 //checks if a full hp ally has a potion and can heal someone
 bool healing(graphics* i, graphics* y) { 
-    if (i->gethealth() < 10 && y->gethealth() == 10) {
-        if (y->get_potions() > 0) {
-            switch (rand() % 2) {
-            case 1:
-                i->health_increase(1);
-                cout << '\a';//bell sound
-                return 1;
-            default:
-                return 0;
-                break;
-            }
-        }
+    if (i->gethealth() < 10 && y->get_potions() > 0) {
+        switch (rand() % 2) {
+        case 1:
+            i->health_increase(1);
+            cout << '\a';//bell sound
+            return 1;
+        default:
+            return 0;
+            break;
+        }           
     }
-    if (y->gethealth() < 10 && i->gethealth() == 10) {
-        if (i->get_potions() > 0) {
-            switch (rand() % 2) {
-            case 1:
-                y->health_increase(1);
-                cout << '\a'; //bell sound
-                return 1;
-            default:
-                return 0;
-                break;
-            }
-        }
+    if (y->gethealth() < 10 && i->get_potions() > 0) {
+        switch (rand() % 2) {
+        case 1:
+            y->health_increase(1);
+            cout << '\a'; //bell sound
+            return 1;
+        default:
+            return 0;
+            break;
+        }        
     }
 }
 
