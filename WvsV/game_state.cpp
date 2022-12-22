@@ -159,7 +159,7 @@ bool check_if_allowed(unsigned short x, unsigned short y, string** array, graphi
     if (x >= x_for_map || y >= y_for_map)
         return false;
     if (i.get_type() == AVATAR) {
-        if (array[x][y] != ":__:" && array[x][y] == " P ")
+        if (array[x][y] != ":__:" && array[x][y] != "  P ")
             return false;
         array[x][y] = "  A "; 
     }
@@ -172,8 +172,6 @@ bool check_if_allowed(unsigned short x, unsigned short y, string** array, graphi
         else
             array[x][y] = "  W ";
     }
-    
-
     return true;
 };
 
@@ -347,7 +345,7 @@ void move_update(string** array, graphics& i, int move) {
     }
 }
 
-void map_create() {
+void map_create_and_play() {
     int x = 0, y = 0;
     char team='o';
     

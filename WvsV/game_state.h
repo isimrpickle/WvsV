@@ -42,7 +42,7 @@ void move_update(string** array, graphics& i, int move);
 
 
  // creates the map with user input
-void map_create();
+void map_create_and_play();
 
 
 // function that is used if a defender run away before an attack
