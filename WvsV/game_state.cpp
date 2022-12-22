@@ -4,11 +4,13 @@
 #include <string>
 #include <windows.h>
 #include <conio.h> //χρηση του getch() για αμεσο input στη κινηση του αβαταρ (δεν χρειαζεται το εντερ)
+#include <algorithm>
+
 using namespace std;
 
 unsigned short x_for_map, y_for_map;
 
-string** create_array_for_map() {
+string** create_array_for_map() { // dynamic memory allocation for the 2d array used for the map
     string** array_for_map = new string * [x_for_map];
     for (int i = 0; i < y_for_map; i++) {
         array_for_map[i] = new string[y_for_map];
@@ -24,14 +26,17 @@ string** create_array_for_map() {
 }
 
 void printing_map(string** array_for_map, vector<vampires>vamps,vector<werewolves> lykoi, avatars av, graphics potion, bool day) {
+    // prints the map and usefull information for the user 
     cout << system("cls") << endl;
+
+    av.get_team() == 'v' ? cout << "Your team is Vampires \nYou can you your potion when it's day" : cout << "Your team is Werewolves \nYou can use your potion when it's night \n" << endl;
     if (day) {
         system("color 6"); //yellow
-        cout << "Sunlight" << endl; 
+        cout << " \nThere's currently Sunlight" << endl; 
     }
     else {
         system("color 8"); //gray
-         cout << "Moonlight" << endl;
+         cout << "\nThere's currently Moonlight" << endl;
     }
     for (int i = 0; i < x_for_map; i++) {
         for (int n = 0; n < y_for_map; n++) {
@@ -57,32 +62,38 @@ void printing_map(string** array_for_map, vector<vampires>vamps,vector<werewolve
     }
 }
 
-void fix_position(string** array, graphics& graphic) {
+void fix_position(string** array, graphics& graphic) { // checks if a graphic spawned on an occupied place and fixes it 
+
     while (array[graphic.get_x()][graphic.get_y()] != ":__:") {
         graphic.set_x(rand() % x_for_map);
         graphic.set_y(rand() % y_for_map);
     }
 };
 
-bool check_position(int one, int two) {
+bool check_position(int one, int two) { //checks if the numbers given have a difrence value of one 
     if (one == two++ || one == two--)
         return true;
     return false;
 };
 
-void next_to_me(string** array, vector<vampires>& vamps,vector<werewolves>& lukoi) {
-    bool healed = 0; //ελεγχος ωστε αν εγινε καποιο action να σταματει η αναζητηση
-    for (int i = 0 ; i != vamps.size()-1; i++) {
-        int p = 1;
-        for (int f = 0 + p; f != vamps.size(); f++) {
+void next_to_me(string** array, vector<vampires>& vamps, vector<werewolves>& lukoi, size_t* vampires_size, size_t* werewolves_size) {
+    bool healed = 0; //bool to use if an action happenedto stop the search
+    int p = 0;
+    for (int i = 0; i != vamps.size() - 1; i++) { //starts from the first vampire and searches from there if it has an ally next to it to heal
+        p++;
+        for (int f = p; f != vamps.size(); f++) {
             if (vamps[i].get_x() == vamps[f].get_x() && check_position(vamps[i].get_y(), vamps[f].get_y())) {
                 healing(&vamps[i], &vamps[f]);
-                healed = 1;
+                if (vamps[i].get_potions() != 1 || vamps[f].get_potions() != 1)     // if an entity uses a potion,anaction has been taken so break the loop
+                    healed = 1;
+
                 break;
             }
             if (vamps[i].get_y() == vamps[f].get_y() && check_position(vamps[i].get_x(), vamps[f].get_x())) {
                 healing(&vamps[i], &vamps[f]);
-                healed = 1;
+                if (vamps[i].get_potions() != 1 || vamps[f].get_potions() != 1)
+                    healed = 1;
+
                 break;
             }
         }
@@ -91,10 +102,15 @@ void next_to_me(string** array, vector<vampires>& vamps,vector<werewolves>& luko
         for (int p = 0; p != lukoi.size(); p++) {
             if (lukoi[p].get_x() == vamps[i].get_x() && check_position(lukoi[p].get_y(), vamps[i].get_y())) {
                 will_it_attack(&lukoi[p], &vamps[i], array);
-                if(lukoi[p].gethealth() == 0)
-                //    lukoi.erase(p);
-                if (vamps[i].gethealth()==0)
-                //    vamps.erase(i);
+
+                if (lukoi[p].gethealth() == 0) { // if an entity dies erase it fromthe vector and decrease the variable used to check the size  
+                   // lukoi.erase(lukoi.begin() + p);
+                    werewolves_size--;
+                }
+                if (vamps[i].gethealth() == 0) {
+                   // vamps.erase(vamps.begin() + i);
+                    vampires_size--;
+                }
                 healed = 1;
                 cout << '\a';
             }
@@ -102,56 +118,59 @@ void next_to_me(string** array, vector<vampires>& vamps,vector<werewolves>& luko
                 break;
             if (lukoi[p].get_y() == vamps[i].get_y() && check_position(lukoi[p].get_x(), vamps[i].get_x())) {
                 will_it_attack(&lukoi[p], &vamps[i], array);
+
                 if (lukoi[p].gethealth() == 0 || vamps[i].gethealth() == 0) {
-                    if (lukoi[p].gethealth() == 0)
-                       // lukoi.erase(p);
-                    if (vamps[i].gethealth()==0)
-                     //   vamps->erase(i); 
+                    if (lukoi[p].gethealth() == 0) {
+                       // lukoi.erase(lukoi.begin() + p);
+                        werewolves_size--;
+                    }
+                    if (vamps[i].gethealth() == 0) {
+                     //   vamps.erase(vamps.begin() + i);
+                        vampires_size--;
+                    }
                     healed = 1;
-                     cout << '\a';
+                    cout << '\a';
                 }
             }
         }
     }
-      /*  for (auto i = lukoi.begin(); i != lukoi.end(); i++) {
-            if (healed)
-                break;
-            werewolves part_one = *i;
-            int p = 1;
-            for (auto f = lukoi.begin() + p; f != lukoi.end(); f++) {
-                werewolves part_two = *f;
-                if (part_one.get_x() == part_two.get_x() && check_position(part_one.get_y(), part_two.get_y())) {
-                    healing(part_one, part_two);
+    p = 0;
+    for (int i = 0; i != lukoi.size(); i++) { //starts from the first werewolf and searches from there if it has an ally next to it to heal
+        p++;
+        for (int f = p; f != lukoi.size(); f++) {
+            if (lukoi[i].get_x() == lukoi[f].get_x() && check_position(lukoi[i].get_y(), lukoi[f].get_y())) {
+                healing(&lukoi[i], &lukoi[f]);
+                if (lukoi[i].get_potions() != 1 || lukoi[f].get_potions() != 1)
                     healed = 1;
-                    break;
-                }
-                
-                if (part_one.get_y() == part_two.get_y() && check_position(part_one.get_x(), part_two.get_x())) {
-                    healing(part_one, part_two);
-                    healed=1;
-                    break;
-                }
+                break;
             }
+            if (lukoi[i].get_y() == lukoi[f].get_y() && check_position(lukoi[i].get_x(), lukoi[f].get_x())) {
+                healing(&lukoi[i], &lukoi[f]);
+                if (lukoi[i].get_potions() != 1 || lukoi[f].get_potions() != 1)
+                    healed = 1;
+                break;
+            }
+
         }
-   */
+    }
 };
 
 bool check_if_allowed(unsigned short x, unsigned short y, string** array, graphics i) {
     if (x >= x_for_map || y >= y_for_map)
         return false;
     if (i.get_type() == AVATAR) {
-        if (array[x][y] != ":__:" && array[x][y] != " P ")
+        if (array[x][y] != ":__:" && array[x][y] == " P ")
             return false;
-        array[x][y] = "A"; //Εισαγωγη Α στη νεα του θέση ωστε να ανανεωθει η συνθηκη του if και να μη δημιουργειται προβλημα πολλων object στην ιδια θεση
+        array[x][y] = "  A "; 
     }
     else {
-        if (array[x][y] != ":__:"|| array[x][y]=="A")
+        if (array[x][y] != ":__:" || array[x][y]=="A")
             return false;
         if (i.get_type() == VAMPIRE) {
-            array[x][y] = "V";   //Ίδια λογικη με 144
+            array[x][y] = "  V ";
         }
         else
-            array[x][y] = "W";// ιδια λογικη με 144
+            array[x][y] = "  W ";
     }
     
 
@@ -161,14 +180,14 @@ bool check_if_allowed(unsigned short x, unsigned short y, string** array, graphi
 void paused(vector<vampires> vamps, vector<werewolves> lukoi, avatars& i) {
     int exit = 0;
     cout <<" The game is paused \nNumber of vampires : " << vamps.size() << "\nNumber of werewolves : " << lukoi.size();
-    for (int i = 0; i < vamps.size(); i++) {
+    /*for (int i = 0; i < vamps.size(); i++) {
         
         cout << endl<<"the health of vampire " <<i+1    << "is: "<< vamps[i].gethealth() << endl;
         cout << "the health of werewolf" << i + 1 << "is: " << lukoi[i].gethealth() << endl;
         cout << endl<<"the health of vampire " <<i+1    << "is: "<< vamps[i].gethealth() << endl;
         cout << "the health of werewolf" << i + 1 << "is: " << lukoi[i].gethealth() << endl;
 
-    }
+    }*/
     cout << endl << "the key 'h' is for healing your team and the key'esc' is for ending the game" << endl;
     cout << "press p again for exiting the pause menu" << endl;
     while (exit != 1) {
@@ -180,18 +199,25 @@ void paused(vector<vampires> vamps, vector<werewolves> lukoi, avatars& i) {
 
 void game_update(string** array, vector<vampires> vamps,vector<werewolves> lukoi, avatars& i, graphics& potion) {
     int  movement;
+    size_t for_werewolves = vamps.size();
+    size_t for_vampires = lukoi.size();
     do {
-    bool day = rand() % 2;
-    if (i.get_x() == potion.get_x() && i.get_y() == potion.get_y()) 
+    bool day = rand() % 2; // rand() % 2 to change from day to night
+
+    if (i.get_x() == potion.get_x() && i.get_y() == potion.get_y()) // if the avatar reaches the potion, his potions number increase by one
         i.set_potions(i.get_potions() + 1);
-        next_to_me(array, vamps, lukoi);
-        movement = _getch();    
+
+        next_to_me(array, vamps, lukoi,&for_werewolves, &for_vampires); // function that checks if a character is next to each other in order to call attack or heal function
+
+        movement = _getch(); // gets the user's input for te avatar without ENTER
+
         if (day == true && i.get_potions() > 0 && i.get_team() == 'v' && movement == 'h') {
             for (int i = 0; i < vamps.size(); i++) {
                 vamps[i].health_regain();
                 cout << '\a';
             }
          }
+
         if (day != true && i.get_potions() > 0 && i.get_team() == 'w' && movement == 'h') {
             for (int i = 0; i < vamps.size(); i++) {
                 vamps[i].health_regain();
@@ -216,16 +242,14 @@ void game_update(string** array, vector<vampires> vamps,vector<werewolves> lukoi
      
         
         printing_map(array,vamps,lukoi,i,potion,day);
-    } while (vamps.size() > 0 || lukoi.size() > 0);
+    } while (for_vampires > 0 || for_werewolves > 0);
 }
 
-void move_update(string** array, graphics& i, int move) { // συναρτηση που προυποθετει να γινεται διασχιση του vector απο πριν καθως και ελεγχος πως καλειται μόνο σε Αβαταρ ή werewolf!
-    // unsigned short int result;
-    if (i.get_type() == WEREWOLF) {
-        // result = i.move();
+void move_update(string** array, graphics& i, int move) { 
+    if (i.get_type() == WEREWOLF) { // checks for the type of the character 
         switch (move) {
         case 1:
-            if (check_if_allowed(i.get_x() + 1, i.get_y(), array,i)) 
+            if (check_if_allowed(i.get_x() + 1, i.get_y(), array,i)) // based on the case the character moves 
                 i.set_x(i.get_x() + 1);
 
             break;
@@ -248,8 +272,7 @@ void move_update(string** array, graphics& i, int move) { // συναρτηση 
             break;
         }
     }
-    else if (i.get_type() == VAMPIRE) {
-        //  result = i.move();
+    else if (i.get_type() == VAMPIRE) { // vampires have 8 cases in total while werewolves and avatar have 4 
         switch (move) {
         case 1:
             if (check_if_allowed(i.get_x() + 1, i.get_y(), array,i))
@@ -328,7 +351,7 @@ void map_create() {
     int x = 0, y = 0;
     char team='o';
     
-    while (team != 'v' && team != 'w') {
+    while (team != 'v' && team != 'w') { // the user chooses his team, v for vampires and W for werewolves
         cout << "What team are you? V for Vampires or W for Werewolves" << endl;
         try {
             cin >> team;
@@ -340,7 +363,7 @@ void map_create() {
         }
     }
 
-    while (x * y <= 15 || x < 4 || y < 4) {
+    while (x * y <= 15 || x < 4 || y < 4) { // user picks the map dimensions , both need to be bigger than 4 in order for the gameto be playable
         cout << "Please enter the dimensions you want! \n x: " << endl;
         cin >> x;
         cout << " y: " << endl;
@@ -352,9 +375,9 @@ void map_create() {
     vector<vampires>the_vampires;
     vector<werewolves> lukoi;
 
-    string** array_for_map = create_array_for_map();
+    string** array_for_map = create_array_for_map(); // 2D array to print the map 
 
-    avatars avatar;
+    avatars avatar;  // creates and put the avatar on the map
     avatar.set_type(AVATAR);
     avatar.set_x(rand() % x_for_map);
     avatar.set_y(rand() % y_for_map);
@@ -362,12 +385,12 @@ void map_create() {
 
     array_for_map[avatar.get_x()][avatar.get_y()] = "  A ";
 
-    graphics potion(rand() % x_for_map, rand() % y_for_map, POTION);
+    graphics potion(rand() % x_for_map, rand() % y_for_map, POTION); // creates the potion on the map for the avatar
     fix_position(array_for_map, potion);
     array_for_map[potion.get_x()][potion.get_y()] = "  P ";
 
 
-    for (int i = 0; i <= (x_for_map * y_for_map) / 100; i++) {
+    for (int i = 0; i <= (x_for_map * y_for_map) / 100; i++) { // loop to create the hazard of the game, 10% of the map.
         graphics tree(rand() % x_for_map, rand() % y_for_map, TREE);
         fix_position(array_for_map, tree);
 
@@ -381,14 +404,15 @@ void map_create() {
     werewolves werewolf;
     vampires vampire;
 
-    for (int i = 0; i < (x_for_map * y_for_map) / 15; i++) {
+    for (int i = 0; i < (x_for_map * y_for_map) / 15; i++) {  // loop to create the enemies to the game and insert them to vectors  
+
         vampire.set_type(VAMPIRE);
         vampire.set_x(rand() % x_for_map);
         vampire.set_y(rand() % y_for_map);
         vampire.set_power(rand() % 4 + 1);
         vampire.set_defense(rand() % 3);
 
-        fix_position(array_for_map, vampire);
+        fix_position(array_for_map, vampire); 
 
         werewolf.set_x(rand() % x_for_map);
         werewolf.set_y(rand() % y_for_map);
@@ -405,14 +429,16 @@ void map_create() {
 
     printing_map(array_for_map, the_vampires,lukoi, avatar, potion, rand() % 2);
 
-    game_update(array_for_map,the_vampires,lukoi, avatar, potion);
+    game_update(array_for_map,the_vampires,lukoi, avatar, potion); // the function where the main game loop happens
     
-     delete[] array_for_map;
+    delete[] array_for_map;
 
 };
 
+
+//checks all positions of the defender until he moves
 void run_away(graphics& graphic, string** array) {
-    bool changes = false;
+   
     int saved_x = graphic.get_x();
     int saved_y = graphic.get_y();
     if (graphic.get_type() == WEREWOLF) {
@@ -432,14 +458,14 @@ void run_away(graphics& graphic, string** array) {
 }
 
 void will_it_attack(graphics* i, graphics* y, string** array) {
-    if (i->getpower() > y->getpower()) { // βλεπουμε ποιος κανει το attack
+    if (i->getpower() > y->getpower()) { // checks who has greater attack power to attack
         switch (rand() % 2) {
         case 0:
-            run_away(*y, array); // επιτυγχανεται η αποφυγη με συναρτηση move. Θα διορθωθει και αλλο!!
+            run_away(*y, array); // the defender has 1/2 chance to escape
             break;
         case 1:
-            if (i->getpower() > y->getdefense()) // Ελεγχουμε αν ο ατακερ εχει μεγαλυτερη δυναμη
-                y->health_decrease(i->getpower()); //μειωνουμε τη ζωη του αμυνομενου αναλογα το power του επιτεθομενου
+            if (i->getpower() > y->getdefense()) 
+                y->health_decrease(i->getpower() - y->getdefense()); 
             cout << y->gethealth() << endl;
             cout << '\a';  //bell sound
         default:
@@ -449,11 +475,11 @@ void will_it_attack(graphics* i, graphics* y, string** array) {
     if (y->getpower() > i->getpower()) {
         switch (rand() % 2) {
         case 0:
-            run_away(*i, array); // επιτυγχανεται η αποφυγη με συναρτηση move. Θα διορθωθει και αλλο!!
+            run_away(*i, array); 
             break;
         case 1:
             if (y->getpower() > i->getdefense())
-                i->health_decrease(y->getpower());
+                i->health_decrease(y->getpower() - i->getdefense());
             cout << i->gethealth() << endl;
             cout << '\a'; //bell sound
         default:
@@ -462,8 +488,9 @@ void will_it_attack(graphics* i, graphics* y, string** array) {
     }
 }
 
+
+//checks if a full hp ally has a potion and can heal someone
 void healing(graphics* i, graphics* y) { 
-    //checks if a full hp ally has a potion and can heal someone
     if (i->gethealth() < 10 && y->gethealth() == 10) {
         if (y->get_potions() > 0) {
             switch (rand() % 2) {

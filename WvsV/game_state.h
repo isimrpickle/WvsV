@@ -22,7 +22,7 @@ bool check_position(int one, int two);
 
 
 // checks and finds whether a character has someonenext to him 
-void next_to_me(string** array, vector<vampires>& vamps, vector<werewolves>&lukoi); 
+void next_to_me(string** array, vector<vampires>& vamps, vector<werewolves>& lukoi, size_t*, size_t*);
 
 
 // if a character has an enemy next to him there is a posibility of attack
