@@ -470,7 +470,6 @@ void will_it_attack(graphics* i, graphics* y, string** array) {
         case 1:
             if (i->getpower() > y->getdefense()) 
                 y->health_decrease(i->getpower() - y->getdefense()); 
-            cout << y->gethealth() << endl;
             cout << '\a';  //bell sound
         default:
             break;
@@ -484,7 +483,6 @@ void will_it_attack(graphics* i, graphics* y, string** array) {
         case 1:
             if (y->getpower() > i->getdefense())
                 i->health_decrease(y->getpower() - i->getdefense());
-            cout << i->gethealth() << endl;
             cout << '\a'; //bell sound
         default:
             break;
