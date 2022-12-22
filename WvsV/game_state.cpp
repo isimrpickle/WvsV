@@ -360,7 +360,7 @@ void map_create_and_play() {
 
      // user picks the map dimensions , both need to be bigger than 4 in order for the game to be playable and since it's a square we need only one input       
         do {
-            cout << "Please enter the dimensions you want! \n  " << endl;
+            cout << "Please enter the dimensions you want! " << endl;
             try {
                 cin >> dimensions;
                 if (dimensions < 4 )
