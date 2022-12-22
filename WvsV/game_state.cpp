@@ -83,15 +83,13 @@ void next_to_me(string** array, vector<vampires>& vamps, vector<werewolves>& luk
         p++;
         for (int f = p; f != vamps.size(); f++) {
             if (vamps[i].get_x() == vamps[f].get_x() && check_position(vamps[i].get_y(), vamps[f].get_y())) {
-                healing(&vamps[i], &vamps[f]);
-                if (healing) {     // if healing is true, an action has been taken so we break the loop
+                if (healing(&vamps[i],&vamps[f])) {     // if healing is true, an action has been taken so we break the loop
                     healed = 1;
                     break;
                 }
             }
             if (vamps[i].get_y() == vamps[f].get_y() && check_position(vamps[i].get_x(), vamps[f].get_x())) {
-                healing(&vamps[i], &vamps[f]);
-                if (healing) {
+                if (healing(&vamps[i], &vamps[f])) {
                     healed = 1;  // if healing is true, an action has been taken so we break the loop
                     break;
                 }
@@ -105,11 +103,11 @@ void next_to_me(string** array, vector<vampires>& vamps, vector<werewolves>& luk
                 will_it_attack(&lukoi[p], &vamps[i], array);
 
                 if (lukoi[p].gethealth() == 0) { // if an entity dies erase it from the vector and decrease the variable used to check the size  
-                   // lukoi.erase(lukoi.begin() + p);
+                    lukoi.erase(lukoi.begin() + p);
                     werewolves_size--;
                 }
                 if (vamps[i].gethealth() == 0) {
-                   // vamps.erase(vamps.begin() + i);
+                    vamps.erase(vamps.begin() + i);
                     vampires_size--;
                 }
                 healed = 1;
@@ -122,11 +120,11 @@ void next_to_me(string** array, vector<vampires>& vamps, vector<werewolves>& luk
 
                 if (lukoi[p].gethealth() == 0 || vamps[i].gethealth() == 0) {
                     if (lukoi[p].gethealth() == 0) {
-                       // lukoi.erase(lukoi.begin() + p);
+                        lukoi.erase(lukoi.begin() + p);
                         werewolves_size--;
                     }
                     if (vamps[i].gethealth() == 0) {
-                     //   vamps.erase(vamps.begin() + i);
+                        vamps.erase(vamps.begin() + i);
                         vampires_size--;
                     }
                     healed = 1;
@@ -140,15 +138,13 @@ void next_to_me(string** array, vector<vampires>& vamps, vector<werewolves>& luk
         p++;
         for (int f = p; f != lukoi.size(); f++) {
             if (lukoi[i].get_x() == lukoi[f].get_x() && check_position(lukoi[i].get_y(), lukoi[f].get_y())) {
-                healing(&lukoi[i], &lukoi[f]);
-                if (healing) {
+                if (healing(&lukoi[i], &lukoi[f])) {
                     healed = 1;   // if healing is true, an action has been taken so we break the loop
                     break;
                 }
             }
             if (lukoi[i].get_y() == lukoi[f].get_y() && check_position(lukoi[i].get_x(), lukoi[f].get_x())) {
-                healing(&lukoi[i], &lukoi[f]);
-                if (healing) {  
+                if (healing(&lukoi[i], &lukoi[f])) {  
                     healed = 1;   // if healing is true, an action has been taken so we break the loop
                     break;
                 }
@@ -347,7 +343,7 @@ void move_update(string** array, graphics& i, int move) {
 }
 
 void map_create_and_play() {
-    int x = 0, y = 0;
+    int dimensions = 0;
     char team='o';
     
     while (team != 'v' && team != 'w') { // the user chooses his team, v for vampires and W for werewolves
@@ -362,33 +358,21 @@ void map_create_and_play() {
         }
     }
 
-     // user picks the map dimensions , both need to be bigger than 4 in order for the game to be playable
+     // user picks the map dimensions , both need to be bigger than 4 in order for the game to be playable and since it's a square we need only one input       
+        do {
+            cout << "Please enter the dimensions you want! \n  " << endl;
+            try {
+                cin >> dimensions;
+                if (dimensions < 4 )
+                    throw runtime_error("Maths is hard");
+            }
+            catch (const exception& x) {
+                cout << "ERROR TYPE: " << x.what() << "\n";
+            }
+            x_for_map = dimensions;
+            y_for_map = dimensions;
+        } while ( dimensions < 4 );  // user picks the map dimensions , both need to be bigger than 4 in order for the game to be playable
         
-        do {
-            cout << "Please enter the dimensions you want! \n x: " << endl;
-            try {
-                cin >> x;
-                if (x < 4 )
-                    throw runtime_error("Maths is hard");
-            }
-            catch (const exception& x) {
-                cout << "ERROR TYPE: " << x.what() << "\n";
-            }
-            x_for_map = x;
-        } while ( x < 4 );  // user picks the map dimensions , both need to be bigger than 4 in order for the game to be playable
-        do {
-            try {
-                cout << " y: " << endl;
-                cin >> y;
-                if (y < 4 )
-                    throw runtime_error("Maths is hard");
-            }
-            catch (const exception& x) {
-                cout << "ERROR TYPE: " << x.what() << "\n";
-            }
-            y_for_map = y;
-        } while ( y < 4  );  // user picks the map dimensions , both need to be bigger than 4 in order for the game to be playable)
-       
         
 
     
@@ -510,7 +494,7 @@ void will_it_attack(graphics* i, graphics* y, string** array) {
 
 
 //checks if a full hp ally has a potion and can heal someone
-bool healing(graphics* i, graphics* y) { 
+bool healing (graphics* i, graphics* y) { 
     if (i->gethealth() < 10 && y->get_potions() > 0) {
         switch (rand() % 2) {
         case 1:
@@ -533,6 +517,7 @@ bool healing(graphics* i, graphics* y) {
             break;
         }        
     }
+    return 0;
 }
 
 
