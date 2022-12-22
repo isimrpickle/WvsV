@@ -362,15 +362,36 @@ void map_create_and_play() {
         }
     }
 
-    while (x * y <= 15 || x < 4 || y < 4) { // user picks the map dimensions , both need to be bigger than 4 in order for the gameto be playable
-        cout << "Please enter the dimensions you want! \n x: " << endl;
-        cin >> x;
-        cout << " y: " << endl;
-        cin >> y;
-        x_for_map = x;
-        y_for_map = y;
+     // user picks the map dimensions , both need to be bigger than 4 in order for the game to be playable
+        
+        do {
+            cout << "Please enter the dimensions you want! \n x: " << endl;
+            try {
+                cin >> x;
+                if (x < 4 )
+                    throw runtime_error("Maths is hard");
+            }
+            catch (const exception& x) {
+                cout << "ERROR TYPE: " << x.what() << "\n";
+            }
+            x_for_map = x;
+        } while ( x < 4 );  // user picks the map dimensions , both need to be bigger than 4 in order for the game to be playable
+        do {
+            try {
+                cout << " y: " << endl;
+                cin >> y;
+                if (y < 4 )
+                    throw runtime_error("Maths is hard");
+            }
+            catch (const exception& x) {
+                cout << "ERROR TYPE: " << x.what() << "\n";
+            }
+            y_for_map = y;
+        } while ( y < 4  );  // user picks the map dimensions , both need to be bigger than 4 in order for the game to be playable)
+       
+        
 
-    };
+    
     vector<vampires>the_vampires;
     vector<werewolves> lukoi;
 
