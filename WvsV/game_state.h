@@ -54,7 +54,7 @@ void will_it_attack(graphics*, graphics*, string**);
 
 
 // if a character has an ally then there is a posibilty of healing
-void healing(graphics*, graphics*);
+bool healing(graphics*, graphics*);
 
 
 

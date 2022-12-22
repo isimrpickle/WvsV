@@ -84,17 +84,18 @@ void next_to_me(string** array, vector<vampires>& vamps, vector<werewolves>& luk
         for (int f = p; f != vamps.size(); f++) {
             if (vamps[i].get_x() == vamps[f].get_x() && check_position(vamps[i].get_y(), vamps[f].get_y())) {
                 healing(&vamps[i], &vamps[f]);
-                if (vamps[i].get_potions() != 1 || vamps[f].get_potions() != 1)     // if an entity uses a potion,anaction has been taken so break the loop
+                if (healing) {     // if an entity uses a potion,anaction has been taken so break the loop
                     healed = 1;
-
-                break;
+                    break;
+                }
             }
             if (vamps[i].get_y() == vamps[f].get_y() && check_position(vamps[i].get_x(), vamps[f].get_x())) {
                 healing(&vamps[i], &vamps[f]);
-                if (vamps[i].get_potions() != 1 || vamps[f].get_potions() != 1)
+                if (healing) {
                     healed = 1;
-
-                break;
+                    break;
+                }
+                
             }
         }
         if (healed)
@@ -140,15 +141,17 @@ void next_to_me(string** array, vector<vampires>& vamps, vector<werewolves>& luk
         for (int f = p; f != lukoi.size(); f++) {
             if (lukoi[i].get_x() == lukoi[f].get_x() && check_position(lukoi[i].get_y(), lukoi[f].get_y())) {
                 healing(&lukoi[i], &lukoi[f]);
-                if (lukoi[i].get_potions() != 1 || lukoi[f].get_potions() != 1)
+                if (healing) {
                     healed = 1;
-                break;
+                    break;
+                }
             }
             if (lukoi[i].get_y() == lukoi[f].get_y() && check_position(lukoi[i].get_x(), lukoi[f].get_x())) {
                 healing(&lukoi[i], &lukoi[f]);
-                if (lukoi[i].get_potions() != 1 || lukoi[f].get_potions() != 1)
+                if (healing) {
                     healed = 1;
-                break;
+                    break;
+                }
             }
 
         }
@@ -161,16 +164,16 @@ bool check_if_allowed(unsigned short x, unsigned short y, string** array, graphi
     if (i.get_type() == AVATAR) {
         if (array[x][y] != ":__:" && array[x][y] != "  P ")
             return false;
-        array[x][y] = "  A "; 
+        array[x][y] = "  A ";  // instant array update in order to avoid object collisions with werewolves and vampires
     }
     else {
         if (array[x][y] != ":__:" || array[x][y]=="A")
             return false;
         if (i.get_type() == VAMPIRE) {
-            array[x][y] = "  V ";
+            array[x][y] = "  V "; //instant array update in order to avoid collisions among classes objects
         }
         else
-            array[x][y] = "  W ";
+            array[x][y] = "  W "; //instant array update in order to avoid collisions among classes objects
     }
     return true;
 };
@@ -488,14 +491,16 @@ void will_it_attack(graphics* i, graphics* y, string** array) {
 
 
 //checks if a full hp ally has a potion and can heal someone
-void healing(graphics* i, graphics* y) { 
+bool healing(graphics* i, graphics* y) { 
     if (i->gethealth() < 10 && y->gethealth() == 10) {
         if (y->get_potions() > 0) {
             switch (rand() % 2) {
             case 1:
                 i->health_increase(1);
                 cout << '\a';//bell sound
+                return 1;
             default:
+                return 0;
                 break;
             }
         }
@@ -506,7 +511,9 @@ void healing(graphics* i, graphics* y) {
             case 1:
                 y->health_increase(1);
                 cout << '\a'; //bell sound
+                return 1;
             default:
+                return 0;
                 break;
             }
         }
