@@ -70,7 +70,7 @@ void fix_position(string** array, graphics& graphic) { // checks if a graphic sp
     }
 };
 
-bool check_position(int one, int two) { //checks if the numbers given have a difrence value of one 
+bool check_position(int one, int two) { //checks if the numbers given have a difrence value of one, if so then two characters are side to side
     if (one == two++ || one == two--)
         return true;
     return false;
@@ -177,14 +177,7 @@ bool check_if_allowed(unsigned short x, unsigned short y, string** array, graphi
 void paused(vector<vampires> vamps, vector<werewolves> lukoi, avatars& i) {
     int exit = 0;
     cout <<" The game is paused \nNumber of vampires : " << vamps.size() << "\nNumber of werewolves : " << lukoi.size();
-    /*for (int i = 0; i < vamps.size(); i++) {
-        
-        cout << endl<<"the health of vampire " <<i+1    << "is: "<< vamps[i].gethealth() << endl;
-        cout << "the health of werewolf" << i + 1 << "is: " << lukoi[i].gethealth() << endl;
-        cout << endl<<"the health of vampire " <<i+1    << "is: "<< vamps[i].gethealth() << endl;
-        cout << "the health of werewolf" << i + 1 << "is: " << lukoi[i].gethealth() << endl;
-
-    }*/
+ 
     cout << endl << "the key 'h' is for healing your team and the key'esc' is for ending the game" << endl;
     cout << "press p again for exiting the pause menu" << endl;
     while (exit != 1) {
