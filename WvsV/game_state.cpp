@@ -49,8 +49,7 @@ void printing_map(string** array_for_map, vector<vampires>vamps,vector<werewolve
         array_for_map[vamps[i].get_x()][vamps[i].get_y()] = "  V ";
     }
 
-    for (int i = 0; i < lykoi.size(); i++) {
-       
+    for (int i = 0; i < lykoi.size(); i++) {     
         array_for_map[lykoi[i].get_x()][lykoi[i].get_y()] = "  W ";
     }
 
@@ -366,13 +365,11 @@ void map_create_and_play() {
             y_for_map = dimensions;
         } while ( dimensions < 4 );  // user picks the map dimensions , both need to be bigger than 4 in order for the game to be playable
         
-        
-
-    
-    vector<vampires>the_vampires;
-    vector<werewolves> lukoi;
 
     string** array_for_map = create_array_for_map(); // 2D array to print the map 
+          
+    vector<vampires>the_vampires;
+    vector<werewolves> lukoi;
 
     avatars avatar;  // creates and put the avatar on the map
     avatar.set_type(AVATAR);
@@ -380,7 +377,7 @@ void map_create_and_play() {
     avatar.set_y(rand() % y_for_map);
     avatar.set_char(team);
 
-    array_for_map[avatar.get_x()][avatar.get_y()] = "  A ";
+    //array_for_map[avatar.get_x()][avatar.get_y()] = "  A ";
 
     graphics potion(rand() % x_for_map, rand() % y_for_map, POTION); // creates the potion on the map for the avatar
     fix_position(array_for_map, potion);
