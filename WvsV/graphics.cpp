@@ -41,6 +41,7 @@ unsigned short int graphics::get_x() {
     return x; 
 };
 
+//virtual
 
 int graphics::getpower()const { 
     return NULL; 
@@ -82,7 +83,6 @@ void graphics::health_decrease(int i) {}
 void graphics::health_increase(int i) {}
 
 vampires::vampires()  {
-    srand((unsigned)time(0));
     this->power = rand() % 4 + 1;
     this->defense = rand() % 3;
     this->health = 10;
@@ -154,8 +154,7 @@ void vampires::health_increase(int i) { this->health += i; }
 
 
 werewolves::werewolves() {
-    srand((unsigned)time(0));
-    this->power = rand() % 4;
+    this->power = rand() % 4+1;
     this->defense = rand() % 3;
     this->health = 10;
     this->potions = rand() % 2;
