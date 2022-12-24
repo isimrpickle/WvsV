@@ -377,8 +377,6 @@ void map_create_and_play() {
     avatar.set_y(rand() % y_for_map);
     avatar.set_char(team);
 
-    //array_for_map[avatar.get_x()][avatar.get_y()] = "  A ";
-
     graphics potion(rand() % x_for_map, rand() % y_for_map, POTION); // creates the potion on the map for the avatar
     fix_position(array_for_map, potion);
     array_for_map[potion.get_x()][potion.get_y()] = "  P ";
