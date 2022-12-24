@@ -77,10 +77,8 @@ bool check_position(int one, int two) { //checks if the numbers given have a dif
 
 void next_to_me(string** array, vector<vampires>& vamps, vector<werewolves>& lukoi, size_t* vampires_size, size_t* werewolves_size) {
     bool healed = 0; //bool to use if an action happenedto stop the search
-    int p = 0;
     for (int i = 0; i != vamps.size() - 1; i++) { //starts from the first vampire and searches from there if it has an ally next to it to heal
-        p++;
-        for (int f = p; f != vamps.size(); f++) {
+        for (int f = i + 1; f != vamps.size(); f++) {
             if (vamps[i].get_x() == vamps[f].get_x() && check_position(vamps[i].get_y(), vamps[f].get_y())) {
                 if (healing(&vamps[i],&vamps[f])) {     // if healing is true, an action has been taken so we break the loop
                     healed = 1;
@@ -132,10 +130,8 @@ void next_to_me(string** array, vector<vampires>& vamps, vector<werewolves>& luk
             }
         }
     }
-    p = 0;
     for (int i = 0; i != lukoi.size(); i++) { //starts from the first werewolf and searches from there if it has an ally next to it to heal
-        p++;
-        for (int f = p; f != lukoi.size(); f++) {
+        for (int f = i+ 1; f != lukoi.size(); f++) {
             if (lukoi[i].get_x() == lukoi[f].get_x() && check_position(lukoi[i].get_y(), lukoi[f].get_y())) {
                 if (healing(&lukoi[i], &lukoi[f])) {
                     healed = 1;   // if healing is true, an action has been taken so we break the loop
@@ -214,8 +210,8 @@ void game_update(string** array, vector<vampires> vamps,vector<werewolves> lukoi
             }
         }
 
-         if (movement== '\x1B')  //vk number for esc
-             break;
+        if (movement== '\x1B')  //vk number for esc
+            break;
         if (movement == 'p')
             paused(vamps, lukoi, i);
         else {
