@@ -2,13 +2,9 @@
 #pragma once
 
 
-#include <list>
 #include <stdlib.h>
-//#include "game_state.h"
 #include <cstdlib>
 #include <iostream>
-#include <chrono>
-#include <thread>
 #include <cstdlib>
 
 

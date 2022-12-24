@@ -1,6 +1,5 @@
 #include <iostream>
 #include"graphics.h"
-#include <cstdlib> // in order to use srand and rand 
 #include<windows.h>
 #include"game_state.h"
 
@@ -12,41 +11,49 @@ graphics::graphics() {
     this->y = 0;
     this->type = EARTH;
 };
+
 graphics::graphics(unsigned short int x_, int y_, GraphicType type_ ) {
     this->x = x_;
     this->y = y_;
     this->type = type_;
 };
+
 void graphics::set_type(GraphicType type_) { 
     this->type = type_; 
 };
+
 GraphicType graphics::get_type() { 
     return this->type;
 };
 void graphics::set_x(unsigned short int i) {
     this->x = i; 
 };
+
 void graphics::set_y(unsigned short int i) { 
     this->y = i; 
 };
+
 unsigned short int graphics::get_y() { 
     return y; 
 };
+
 unsigned short int graphics::get_x() {
     return x; 
 };
-/*GraphicType graphics::get_id(graphics example) { 
-    return example.type; 
-};*/
+
+
 int graphics::getpower()const { 
     return NULL; 
 }
+
 int graphics::getdefense()const { 
     return NULL; 
 }
+
 int graphics::gethealth()const { 
     return NULL; 
 }
+
 int graphics::get_potions() { 
     return NULL; 
 }
@@ -81,30 +88,34 @@ vampires::vampires()  {
     this->health = 10;
     this->potions = rand() % 2;
 };
+
 void vampires::health_regain() {
     health = 10; 
 };
+
 void vampires::set_power(int i) { 
     this->power = i; 
 }
+
 void vampires::set_defense(int i) {
     this->defense = i;
 }
+
 int vampires::getpower() const { 
     return this->power; 
 }
+
 int vampires::getdefense()const { 
     return defense; 
 }
+
 int vampires::gethealth()const { 
     return this->health; 
 }
+
 int vampires::get_potions()const { 
     return this->potions; 
 }
-//void vampires::printstats() const {
-   // cout << "the power, the defense and the health are:" << getpower() << "," << getdefense() << "," << gethealth() << endl;
-//}
 
 int vampires::move() {
     switch (1 + rand() % 8) {  // οι περιπτωσεις να μετακινηθει προς οποιαδήποτε κατευθυνση είναι ισοπίθανη
@@ -136,9 +147,10 @@ int vampires::move() {
     }
     return NULL;
 }
-void vampires::health_decrease(int i) { this->health -= i; }
-void vampires::health_increase(int i) { this->health += i; }
 
+void vampires::health_decrease(int i) { this->health -= i; }
+
+void vampires::health_increase(int i) { this->health += i; }
 
 
 werewolves::werewolves() {
@@ -148,49 +160,56 @@ werewolves::werewolves() {
     this->health = 10;
     this->potions = rand() % 2;
 };
+
 void werewolves::health_regain() { 
     health = 10; 
 };
-void werewolves::set_power(int i) { 
-    this->power = i; 
-}
-int werewolves::getpower() const { 
-    return this->power; 
-}
-void werewolves::set_defense(int i) { 
-    this->defense = i; 
-}
-int werewolves::getdefense()const { 
-    return this->defense; 
-}
-int werewolves::gethealth()const { 
-    return this->health; 
-}
-int werewolves::get_potions()const { 
-    return this->potions; 
-}
 
-void werewolves::health_decrease(int i) { 
-    this->health -= i; 
-}
-void werewolves::health_increase(int i) { 
-    this->health += i; 
-}
+void werewolves::set_power(int i) {
+    this->power = i;
+};
 
-//void werewolves::printstats_w()const {
-  //  cout << "the power, the defense and the health are:" << getpower() << "," << getdefense() << "," << gethealth() << endl;
-//}
+int werewolves::getpower() const {
+    return this->power;
+};
+
+void werewolves::set_defense(int i) {
+    this->defense = i;
+};
+
+int werewolves::getdefense()const {
+    return this->defense;
+};
+
+int werewolves::gethealth()const {
+    return this->health;
+};
+
+int werewolves::get_potions()const {
+    return this->potions;
+};
+
+void werewolves::health_decrease(int i) {
+    this->health -= i;
+};
+
+void werewolves::health_increase(int i) {
+    this->health += i;
+};
 
 avatars::avatars() {
     potions = rand() % 2;
     A = 'b';
-}
+};
+
 char avatars::get_team() { 
     return A; 
 };
+
 void avatars::set_potions(int i) { 
     potions = i; 
 };
+
 void avatars::set_char(char a) {
     A = a; 
 };

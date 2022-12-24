@@ -439,7 +439,6 @@ void map_create_and_play() {
 
 };
 
-
 //checks all positions of the defender until he moves
 void run_away(graphics& graphic, string** array) {
    
@@ -489,7 +488,6 @@ void will_it_attack(graphics* i, graphics* y, string** array) {
         }
     }
 }
-
 
 //checks if a full hp ally has a potion and can heal someone
 bool healing (graphics* i, graphics* y) { 
