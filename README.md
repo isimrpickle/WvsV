@@ -1,1 +1,1 @@
-"Werewolves Vs. Vampires " simple terminal game in c++.
+"Werewolves Vs. Vampires" it's a simple terminal game written in c++ where an ascii character represents a different in-game entity. Some more information about the rules of the game and how each character is supposed to work can be found in the "project's rules presentattion".
