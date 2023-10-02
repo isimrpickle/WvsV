@@ -1,4 +1,1 @@
-# WvsV
-Συμμετέχοντες:
-Κυριακή Καλαμάρη, sdi2000255, sdi2000255@di.uoa.gr , 3ο έτος
-Ισίδωρος Καλαμάρης, sdi2000233, sdi2000233@di.uoa.gr, 3ο έτος
+"Werewolves Vs. Vampires " simple terminal game in c++.
